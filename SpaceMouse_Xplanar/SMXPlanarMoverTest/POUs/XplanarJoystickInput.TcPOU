@@ -2,14 +2,12 @@
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
   <POU Name="XplanarJoystickInput" Id="{628e42b2-83a3-4989-a50b-c28d690be976}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK XplanarJoystickInput
-VAR_INPUT
-	stMouseInputs	: REFERENCE TO SpaceMouseInputs;
-END_VAR
 VAR	
+	_stMouseInputs	: REFERENCE TO SpaceMouseInputs;
 	fbMover1	: MC_PlanarMover;
-	fbMover2	: FB_XPlanarMoverStandard;
-	fbMover3	: FB_XPlanarMoverStandard;
-	fbMover4	: FB_XPlanarMoverStandard;
+	fbMover2	: MC_PlanarMover;
+	fbMover3	: MC_PlanarMover;
+	fbMover4	: MC_PlanarMover;
 	nState		: INT;
 	slogMsg1	: STRING;
 	slogMsg2	: STRING;
@@ -30,93 +28,7 @@ VAR
 	
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[CASE nState OF
-	5:
-		fbGroup.Enable(fbGrpFeedback);
-		nState := 6;
-	6:
-		fbGrpFeedback.Update();
-		IF fbGrpFeedback.Done THEN
-		nState := 10;
-		ELSIF fbGrpFeedback.Error THEN
-			nState :=15;
-		END_IF
-	10:
-		IF fbGroup.MCTOPLC_STD.GroupObjectCount = 0 THEN
-		addStators(4,3);
-		fbEnvironment.AddToGroup(fbEnvFeedback, fbGroup);
-		END_IF
-		
-		
-		
-		stOptions1.mode := MC_SET_POSITION_MODE.Absolute;
-		fbMover1.Enable(fbFeedback1);
-		nState := 11;
-	
-	11:
-		fbFeedback1.Update();
-		IF fbFeedback1.Done THEN
-			IF fbGroup.MCTOPLC_STD.GroupObjectCount = 1 THEN
-			fbMover1.AddToGroup(fbFeedback1,fbGroup);
-			END_IF
-			nState := 12;
-		ELSIF fbFeedback1.Error THEN
-			nState := 15;
-		END_IF
-	12:
-		fbFeedback1.Update();
-		IF fbFeedback1.Done THEN
-			nState := 20;
-		ELSIF fbFeedback1.Error THEN
-			nState := 15;
-		END_IF
-	20:
-		SpaceMouseInput();
-		//nState := 21; 
-
-	IF stMouseInputs.Btn2 THEN
-		nState := 40;
-	END_IF
-	
-	(*
-	30:
-		stPos1.SetValuesXYC(240,120,0);
-		fbMover1.MoveToPosition(slogmsg1,stpos1,200,1000,1000,10000);
-		nState := 31;
-	31:
-		IF fbMover1.P_MoveToPosition.Done THEN
-			nState := 20;
-		ELSIF fbMover1.P_MoveToPosition.Error THEN
-			nState := 15;
-		END_IF
-	*)
-	40:
-		
-		snapRotations();
-		IF NOT bMouseInput THEN
-			nState := 20;
-		END_IF
-	41:
-		IF fbfeedBack1.Done THEN
-			stMouseInputs.Btn2 := FALSE;	
-			nState := 20;
-		ELSIF fbFeedback1.Error THEN
-			stMouseInputs.Btn2 := FALSE;
-			nState := 15;
-		END_IF
-		
-	42:
-		fbMover1.Reset(fbFeedBack1);
-		fbGroup.Reset(fbGrpFeedback);
-		nState := 5;
-		
-END_CASE
-fbGrpFeedback.Update();
-fbEnvFeedback.Update();
-fbFeedback1.Update();
-fbEnvironment.Update();
-fbGroup.Update();
-fbMover1.Update();]]></ST>
+      <ST><![CDATA[]]></ST>
     </Implementation>
     <Method Name="AddStators" Id="{84b35aca-d227-436c-882b-decb473852ab}">
       <Declaration><![CDATA[METHOD AddStators : BOOL
@@ -191,7 +103,7 @@ END_VAR
 		SpaceMouseInput();
 		//nState := 21; 
 
-	IF stMouseInputs.Btn2 THEN
+	IF _stMouseInputs.Btn2 THEN
 		nState := 40;
 	END_IF
 	
@@ -215,10 +127,10 @@ END_VAR
 		END_IF
 	41:
 		IF fbfeedBack1.Done THEN
-			stMouseInputs.Btn2 := FALSE;	
+			_stMouseInputs.Btn2 := FALSE;	
 			nState := 20;
 		ELSIF fbFeedback1.Error THEN
-			stMouseInputs.Btn2 := FALSE;
+			_stMouseInputs.Btn2 := FALSE;
 			nState := 15;
 		END_IF
 		
@@ -236,6 +148,17 @@ fbGroup.Update();
 fbMover1.Update();]]></ST>
       </Implementation>
     </Method>
+    <Property Name="MouseInputs" Id="{ce6319ab-7d1e-45b1-86c5-02cb5cc0a402}">
+      <Declaration><![CDATA[PROPERTY MouseInputs : SpaceMouseInputs]]></Declaration>
+      <Set Name="Set" Id="{9f95d38a-6c43-4a5c-a0e7-e8506673714a}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_stMouseInputs REF= MouseInputs;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
     <Method Name="ScaleInput" Id="{bcca2f22-575b-40ef-9938-926deae6089e}">
       <Declaration><![CDATA[METHOD ScaleInput : LREAL
 VAR_INPUT
@@ -264,22 +187,22 @@ Acceleration.z := 0;
 Acceleration.a := 0;
 Acceleration.b := 0;
 Acceleration.c := 0;
-IF stMouseInputs.X <-20 OR stMouseInputs.X >20 THEN
+IF _stMouseInputs.X <-20 OR _stMouseInputs.X >20 THEN
 	Acceleration.x := 100;
 END_IF
-IF stMouseInputs.Y <-20 OR stMouseInputs.Y >20 THEN
+IF _stMouseInputs.Y <-20 OR _stMouseInputs.Y >20 THEN
 Acceleration.y := 100;
 END_IF
-IF (stMouseInputs.Z <-20 AND ZPos > 0) OR (stMouseInputs.Z >20 AND ZPos <4) THEN
+IF (_stMouseInputs.Z <-20 AND ZPos > 0) OR (_stMouseInputs.Z >20 AND ZPos <4) THEN
 Acceleration.z := 100;
 END_IF
-IF stMouseInputs.A <-20 OR stMouseInputs.A >20 THEN
+IF _stMouseInputs.A <-20 OR _stMouseInputs.A >20 THEN
 Acceleration.a := 100;
 END_IF
-IF stMouseInputs.B <-20 OR stMouseInputs.B >20 THEN
+IF _stMouseInputs.B <-20 OR _stMouseInputs.B >20 THEN
 Acceleration.b := 100;
 END_IF
-IF stMouseInputs.C <-20 OR stMouseInputs.C >20 THEN
+IF _stMouseInputs.C <-20 OR _stMouseInputs.C >20 THEN
 Acceleration.c := 100;
 END_IF]]></ST>
       </Implementation>
@@ -298,40 +221,40 @@ END_VAR
         <ST><![CDATA[Position := fbMover1.MCTOPLC.ACT.ActPos;
 
 
-IF stMouseInputs.X > 20 THEN
-	Position.x := Position.x + delta * scaleInput(ABS(stMouseInputs.X),MaxXYVelocity);
-ELSIF stMouseInputs.X < -20 THEN
-	Position.x := Position.x + (-1*delta * scaleInput(ABS(stMouseInputs.X),MaxXYVelocity));
+IF _stMouseInputs.X > 20 THEN
+	Position.x := Position.x + delta * scaleInput(ABS(_stMouseInputs.X),MaxXYVelocity);
+ELSIF _stMouseInputs.X < -20 THEN
+	Position.x := Position.x + (-1*delta * scaleInput(ABS(_stMouseInputs.X),MaxXYVelocity));
 END_IF
 
-IF stMouseInputs.Y > 20 THEN
-	Position.y := Position.y + delta * scaleInput(ABS(stMouseInputs.Y),MaxXYVelocity);
-ELSIF stMouseInputs.Y < -20 THEN
-	Position.y := Position.y + (-1*delta * scaleInput(ABS(stMouseInputs.Y),MaxXYVelocity));
+IF _stMouseInputs.Y > 20 THEN
+	Position.y := Position.y + delta * scaleInput(ABS(_stMouseInputs.Y),MaxXYVelocity);
+ELSIF _stMouseInputs.Y < -20 THEN
+	Position.y := Position.y + (-1*delta * scaleInput(ABS(_stMouseInputs.Y),MaxXYVelocity));
 END_IF
 
-IF stMouseInputs.Z > 20 AND Position.z < 4 THEN
-	Position.z := Position.z + delta * scaleInput(ABS(stMouseInputs.Z),MaxZABCVelocity);
-ELSIF stMouseInputs.Z < -20 AND Position.z > 0 THEN
-	Position.z := Position.z + (-1 * delta * scaleInput(ABS(stMouseInputs.Z),MaxZABCVelocity));
+IF _stMouseInputs.Z > 20 AND Position.z < 4 THEN
+	Position.z := Position.z + delta * scaleInput(ABS(_stMouseInputs.Z),MaxZABCVelocity);
+ELSIF _stMouseInputs.Z < -20 AND Position.z > 0 THEN
+	Position.z := Position.z + (-1 * delta * scaleInput(ABS(_stMouseInputs.Z),MaxZABCVelocity));
 END_IF
 
-IF stMouseInputs.A > 20 THEN
-	Position.a := Position.a + delta * scaleInput(ABS(stMouseInputs.A),MaxZABCVelocity);
-ELSIF stMouseInputs.A < -20 THEN
-	Position.a := Position.a + (-1* delta * scaleInput(ABS(stMouseInputs.A),MaxZABCVelocity));
+IF _stMouseInputs.A > 20 THEN
+	Position.a := Position.a + delta * scaleInput(ABS(_stMouseInputs.A),MaxZABCVelocity);
+ELSIF _stMouseInputs.A < -20 THEN
+	Position.a := Position.a + (-1* delta * scaleInput(ABS(_stMouseInputs.A),MaxZABCVelocity));
 END_IF
 
-IF stMouseInputs.B > 20 THEN
-	Position.b := Position.b + delta * scaleInput(ABS(stMouseInputs.B),MaxZABCVelocity);
-ELSIF stMouseInputs.B < -20 THEN
-	Position.b := Position.b + (-1* delta * scaleInput(ABS(stMouseInputs.B),MaxZABCVelocity));
+IF _stMouseInputs.B > 20 THEN
+	Position.b := Position.b + delta * scaleInput(ABS(_stMouseInputs.B),MaxZABCVelocity);
+ELSIF _stMouseInputs.B < -20 THEN
+	Position.b := Position.b + (-1* delta * scaleInput(ABS(_stMouseInputs.B),MaxZABCVelocity));
 END_IF
 
-IF stMouseInputs.C > 20 THEN
-	Position.c := Position.c + delta * scaleInput(ABS(stMouseInputs.C),MaxZABCVelocity);
-ELSIF stMouseInputs.C < -20 THEN
-	Position.c := Position.c + (-1* delta * scaleInput(ABS(stMouseInputs.C),MaxZABCVelocity));
+IF _stMouseInputs.C > 20 THEN
+	Position.c := Position.c + delta * scaleInput(ABS(_stMouseInputs.C),MaxZABCVelocity);
+ELSIF _stMouseInputs.C < -20 THEN
+	Position.c := Position.c + (-1* delta * scaleInput(ABS(_stMouseInputs.C),MaxZABCVelocity));
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -353,40 +276,40 @@ Velocity.a := 0;
 Velocity.b := 0;
 Velocity.c := 0;
 
-IF stMouseInputs.X > 20 THEN
-	Velocity.x := scaleInput(ABS(stMouseInputs.X), MaxXYVelocity);
-ELSIF stMouseInputs.X < -20 THEN
-	Velocity.x := ( -1 *scaleInput(ABS(stMouseInputs.X), MaxXYVelocity));
+IF _stMouseInputs.X > 20 THEN
+	Velocity.x := scaleInput(ABS(_stMouseInputs.X), MaxXYVelocity);
+ELSIF _stMouseInputs.X < -20 THEN
+	Velocity.x := ( -1 *scaleInput(ABS(_stMouseInputs.X), MaxXYVelocity));
 END_IF
 
-IF stMouseInputs.Y > 20 AND ZPos < 4 THEN
-	Velocity.y := scaleInput(ABS(stMouseInputs.Y), MaxXYVelocity);
-ELSIF stMouseInputs.Y < -20 AND ZPos > 0 THEN
-	Velocity.y := (-1 * scaleInput(ABS(stMouseInputs.Y), MaxXYVelocity));
+IF _stMouseInputs.Y > 20 AND ZPos < 4 THEN
+	Velocity.y := scaleInput(ABS(_stMouseInputs.Y), MaxXYVelocity);
+ELSIF _stMouseInputs.Y < -20 AND ZPos > 0 THEN
+	Velocity.y := (-1 * scaleInput(ABS(_stMouseInputs.Y), MaxXYVelocity));
 END_IF
 
-IF stMouseInputs.Z > 20 THEN
-	Velocity.z := scaleInput(ABS(stMouseInputs.Z), MaxZABCVelocity);
-ELSIF stMouseInputs.Z < -20 THEN
-	Velocity.z := (-1 * scaleInput(ABS(stMouseInputs.Z), MaxZABCVelocity));
+IF _stMouseInputs.Z > 20 THEN
+	Velocity.z := scaleInput(ABS(_stMouseInputs.Z), MaxZABCVelocity);
+ELSIF _stMouseInputs.Z < -20 THEN
+	Velocity.z := (-1 * scaleInput(ABS(_stMouseInputs.Z), MaxZABCVelocity));
 END_IF
 
-IF  stMouseInputs.A > 20 THEN
-	Velocity.a := scaleInput(ABS(stMouseInputs.A), MaxZABCVelocity);
-ELSIF stMouseInputs.A < -20 THEN
-	Velocity.a := (-1 *scaleInput(ABS(stMouseInputs.A), MaxZABCVelocity));
+IF  _stMouseInputs.A > 20 THEN
+	Velocity.a := scaleInput(ABS(_stMouseInputs.A), MaxZABCVelocity);
+ELSIF _stMouseInputs.A < -20 THEN
+	Velocity.a := (-1 *scaleInput(ABS(_stMouseInputs.A), MaxZABCVelocity));
 END_IF
 
-IF stMouseInputs.B > 20THEN
-	Velocity.b := scaleInput(ABS(stMouseInputs.B), MaxZABCVelocity);
-ELSIF  stMouseInputs.B < -20  THEN
-	Velocity.b := (-1 *scaleInput(ABS(stMouseInputs.B), MaxZABCVelocity));
+IF _stMouseInputs.B > 20THEN
+	Velocity.b := scaleInput(ABS(_stMouseInputs.B), MaxZABCVelocity);
+ELSIF  _stMouseInputs.B < -20  THEN
+	Velocity.b := (-1 *scaleInput(ABS(_stMouseInputs.B), MaxZABCVelocity));
 END_IF
 
-IF stMouseInputs.C > 20THEN
-	Velocity.c := scaleInput(ABS(stMouseInputs.C), MaxZABCVelocity);
-ELSIF stMouseInputs.C < -20 THEN
-	Velocity.c := (-1 * scaleInput(ABS(stMouseInputs.C), MaxZABCVelocity));
+IF _stMouseInputs.C > 20THEN
+	Velocity.c := scaleInput(ABS(_stMouseInputs.C), MaxZABCVelocity);
+ELSIF _stMouseInputs.C < -20 THEN
+	Velocity.c := (-1 * scaleInput(ABS(_stMouseInputs.C), MaxZABCVelocity));
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -415,17 +338,17 @@ END_VAR
 //IF stPosSnap1.c < -1.0 OR stPosSnap1.c > 1.0 THEN
 //First cycle since snap command.
 
-	IF stMouseInputs.Btn2 AND NOT bMouseInput THEN
+	IF _stMouseInputs.Btn2 AND NOT bMouseInput THEN
 		fAngle := snapTo90(stPosSnap1.c);
 		fbMover1.StartExternalSetpointGeneration(fbFeedback1,stOptions1);
 		bMouseInput := TRUE;
 	END_IF
 //make sure the difference between the nearest 90 degree angle and the curent position is great enough to command the mover to rotate.
 IF (stPosSnap1.c > 0 AND LTRUNC(stPosSnap1.c - fAngle) =0) OR (stPosSnap1.c <0 AND LTRUNC(stPosSnap1.c + fAngle) = 0) THEN
-			stMouseInputs.Btn2 := FALSE;
+			_stMouseInputs.Btn2 := FALSE;
 END_IF
 //Last cycle to end snap command
-	IF NOT stMouseInputs.Btn2 AND bMouseInput THEN
+	IF NOT _stMouseInputs.Btn2 AND bMouseInput THEN
 		Position := stPosSnap1;
 		//Position.c := fAngle;
 		Velocity.c := 0;
@@ -437,7 +360,7 @@ END_IF
 	
 	END_IF
 
-	IF stMouseInputs.Btn2 AND bMouseInput THEN
+	IF _stMouseInputs.Btn2 AND bMouseInput THEN
 		
 		Position := stPosSnap1;
 		Acceleration.c := 100;
@@ -496,12 +419,12 @@ VAR
 
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF 	stMouseInputs.X < -20 OR stMouseInputs.X > 20 OR
-	stMouseInputs.Y < -20 OR stMouseInputs.Y > 20 OR
-	stMouseInputs.Z < -20 OR stMouseInputs.Z > 20 OR 
-	stMouseInputs.A < -20 OR stMouseInputs.A > 20 OR 
-	stMouseInputs.B < -20 OR stMouseInputs.B > 20 OR 
-	stMouseInputs.C < -20 OR stMouseInputs.C > 20 THEN
+        <ST><![CDATA[IF 	_stMouseInputs.X < -20 OR _stMouseInputs.X > 20 OR
+	_stMouseInputs.Y < -20 OR _stMouseInputs.Y > 20 OR
+	_stMouseInputs.Z < -20 OR _stMouseInputs.Z > 20 OR 
+	_stMouseInputs.A < -20 OR _stMouseInputs.A > 20 OR 
+	_stMouseInputs.B < -20 OR _stMouseInputs.B > 20 OR 
+	_stMouseInputs.C < -20 OR _stMouseInputs.C > 20 THEN
 	
 	IF NOT bMouseInput THEN
 	
