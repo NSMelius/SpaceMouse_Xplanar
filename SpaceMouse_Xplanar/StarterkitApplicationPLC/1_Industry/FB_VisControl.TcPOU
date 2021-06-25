@@ -1,0 +1,133 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="FB_VisControl" Id="{93803f19-88f6-4a29-98bd-b303e6c84fe6}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_VisControl
+
+VAR_IN_OUT
+
+	iq_stVisControl  : ST_VisControl;
+	iq_XTags		 : ST_XTags;
+		
+END_VAR
+
+
+VAR
+		
+	diStatusOld : DINT := -1;
+
+END_VAR
+
+
+
+
+
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+
+
+	// Setting XTag-Commands according to user-commands
+	IF    iq_stVisControl.stControlPad.bButtonState_Abort THEN
+				iq_XTags.Command  := E_XMotion_Command.Abort;	
+	ELSIF iq_stVisControl.stControlPad.bButtonState_Reset THEN
+				iq_XTags.Command  := E_XMotion_Command.Reset;	
+	ELSIF iq_stVisControl.stControlPad.bButtonState_Prepare THEN
+				iq_XTags.Command  := E_XMotion_Command.Prepare;	
+	ELSIF iq_stVisControl.stControlPad.bButtonState_Start THEN
+				iq_XTags.Command  := E_XMotion_Command.Start;	
+	ELSE
+				iq_XTags.Command  := E_XMotion_Command.NoCommand;
+	END_IF
+
+
+	
+	// Setting Vis display according to current status
+	IF iq_XTags.Status <> diStatusOld THEN
+		diStatusOld := iq_XTags.Status;	
+	
+		iq_stVisControl.stControlPad.bStateSignalAbortBlue     := FALSE;
+		iq_stVisControl.stControlPad.bStateSignalAbortYellow   := FALSE;
+		iq_stVisControl.stControlPad.bStateSignalAbortGreen    := FALSE;
+		iq_stVisControl.stControlPad.bStateSignalResetYellow   := FALSE;
+		iq_stVisControl.stControlPad.bStateSignalResetGreen    := FALSE;		
+		iq_stVisControl.stControlPad.bStateSignalResetYellow   := FALSE;
+		iq_stVisControl.stControlPad.bStateSignalResetGreen    := FALSE;		
+		iq_stVisControl.stControlPad.bStateSignalPrepareYellow := FALSE;
+		iq_stVisControl.stControlPad.bStateSignalPrepareGreen  := FALSE;		
+		iq_stVisControl.stControlPad.bStateSignalExecuteYellow := FALSE;
+		iq_stVisControl.stControlPad.bStateSignalExecuteGreen  := FALSE;	
+
+		IF 	   iq_XTags.Status = E_XMotion_Status.Aborting THEN
+					iq_stVisControl.stControlPad.bStateSignalAbortYellow   := TRUE;		
+		ELSIF iq_XTags.Status = E_XMotion_Status.Aborted THEN
+					iq_stVisControl.stControlPad.bStateSignalAbortGreen    := TRUE;
+		ELSIF iq_XTags.Status = E_XMotion_Status.Resetting THEN
+					iq_stVisControl.stControlPad.bStateSignalResetYellow   := TRUE;
+		ELSIF iq_XTags.Status = E_XMotion_Status.Stopped THEN
+					iq_stVisControl.stControlPad.bStateSignalResetGreen    := TRUE;
+		ELSIF iq_XTags.Status = E_XMotion_Status.Preparing THEN
+					iq_stVisControl.stControlPad.bStateSignalPrepareYellow := TRUE;
+		ELSIF iq_XTags.Status = E_XMotion_Status.Prepared THEN
+					iq_stVisControl.stControlPad.bStateSignalPrepareGreen  := TRUE;
+		ELSIF iq_XTags.Status = E_XMotion_Status.Execute THEN
+					iq_stVisControl.stControlPad.bStateSignalExecuteGreen  := TRUE;
+		ELSIF iq_XTags.Status = E_XMotion_Status.StartUp THEN
+					iq_stVisControl.stControlPad.bStateSignalAbortBlue     := TRUE;
+		END_IF	
+
+	END_IF
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

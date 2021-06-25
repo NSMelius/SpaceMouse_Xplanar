@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <DUT Name="ST_XTags" Id="{367c0bcf-1496-4d3e-afe0-9bb37da8956d}">
+    <Declaration><![CDATA[TYPE ST_XTags :
+STRUCT
+	
+
+	Command		: E_XMotion_Command;
+	Status		: E_XMotion_Status;
+	States		: ST_XMotionStatemachineStates;
+	
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

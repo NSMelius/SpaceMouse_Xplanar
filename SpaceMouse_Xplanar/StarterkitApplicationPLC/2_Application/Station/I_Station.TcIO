@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <Itf Name="I_Station" Id="{bca8b624-a113-4e00-aca3-b972bad40b56}">
+    <Declaration><![CDATA[INTERFACE I_Station
+]]></Declaration>
+    <Method Name="ccl00_cycle" Id="{a3d56f2d-b609-4967-9052-f42e09bd5bfc}">
+      <Declaration><![CDATA[METHOD ccl00_cycle : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="ClearList" Id="{d26a225f-ae2a-4d20-b875-2799e08aaf8f}">
+      <Declaration><![CDATA[METHOD ClearList : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+    <Property Name="InputConnections" Id="{cdbffbd2-4001-44cf-bc5d-b6e772767b57}">
+      <Declaration><![CDATA[PROPERTY InputConnections : I_Station]]></Declaration>
+      <Get Name="Get" Id="{00ba5439-ccf4-4214-bed9-06a28b868650}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+      <Set Name="Set" Id="{34da8836-a7dc-49ad-b69d-ceb52d8eb184}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Set>
+    </Property>
+    <Property Name="OutputConnections" Id="{dac74c09-a883-4cc2-bcee-9eff9898f6cc}">
+      <Declaration><![CDATA[PROPERTY OutputConnections : I_Station]]></Declaration>
+      <Get Name="Get" Id="{14f3f06a-1e3b-4da0-8ae9-8be05da0f2a6}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+      <Set Name="Set" Id="{69a1e3a0-a154-4b4d-8815-bde5b641ee3b}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Set>
+    </Property>
+    <Property Name="P_List" Id="{71df2070-bf2d-4865-ab6c-eac47b5aa035}">
+      <Declaration><![CDATA[PROPERTY P_List : I_List]]></Declaration>
+      <Get Name="Get" Id="{3b58df1e-ed13-48d4-be1e-b54fa634e5e0}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Property Name="P_List_Input_B" Id="{70373c47-8819-42ee-9d84-ed9f13a4226a}">
+      <Declaration><![CDATA[PROPERTY P_List_Input_B : I_List]]></Declaration>
+      <Get Name="Get" Id="{72457871-9bbe-401a-99ea-52c24c5246e3}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Property Name="P_List_Input_C" Id="{3d333dfd-2088-49f9-9854-25ad6433250b}">
+      <Declaration><![CDATA[PROPERTY P_List_Input_C : I_List]]></Declaration>
+      <Get Name="Get" Id="{8e752642-c001-4ed8-90fc-4f1a78e6c835}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Property Name="P_nErrorCode" Id="{adaa79df-fd38-47a9-8f02-41122f8130d9}">
+      <Declaration><![CDATA[PROPERTY P_nErrorCode : UDINT]]></Declaration>
+      <Get Name="Get" Id="{d8ebd20d-6627-46e3-9009-d6c098e76fff}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Property Name="P_PositionOnTrack" Id="{31956b21-1b46-440d-b828-c647302a1295}">
+      <Declaration><![CDATA[PROPERTY P_PositionOnTrack : ST_StationTrackPosition]]></Declaration>
+      <Get Name="Get" Id="{ed769a64-f884-4fca-a30b-27b6d292fa9f}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Method Name="Processing" Id="{92f6ea25-c16c-402a-afde-b4604f3bd6de}">
+      <Declaration><![CDATA[METHOD Processing : BOOL
+VAR_INPUT
+	i_nMachineState 	: INT;		// 1=Starting, 2=Running
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="ResetStation" Id="{b1877d0f-e81a-48da-9418-04ae041b8a50}">
+      <Declaration><![CDATA[METHOD ResetStation : BOOL
+VAR_INPUT
+	bClear	: BOOL;
+END_VAR
+
+]]></Declaration>
+    </Method>
+  </Itf>
+</TcPlcObject>

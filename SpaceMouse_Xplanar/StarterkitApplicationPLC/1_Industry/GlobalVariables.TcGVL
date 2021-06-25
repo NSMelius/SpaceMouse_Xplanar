@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <GVL Name="GlobalVariables" Id="{a2a5744c-15c4-44f0-a6cb-58677bd6bb29}">
+    <Declaration><![CDATA[
+
+VAR_GLOBAL
+	
+	XTags			: ST_XTags;		
+
+	stVisControl	: ST_VisControl;
+	
+
+END_VAR]]></Declaration>
+  </GVL>
+</TcPlcObject>

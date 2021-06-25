@@ -1,0 +1,136 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.5">
+  <POU Name="FB_TrackSegment_3" Id="{10d4b186-0600-4105-8a07-6505a5da2897}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_TrackSegment_3 EXTENDS FB_TrackBase IMPLEMENTS I_TRACK
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+
+
+VAR
+	
+
+
+
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="Initialize" Id="{a762885f-9648-4408-92c4-332f90f4f5dd}">
+      <Declaration><![CDATA[METHOD Initialize : BOOL
+VAR_INPUT
+	bExecute 			: BOOL;
+	
+END_VAR
+VAR_INST
+	nState			: INT;
+	fbR_TrigExecute : R_TRIG;
+	
+	
+	TrackTable		: ARRAY[1..maxNumTrackPoints,1..3] OF LREAL;
+	nPointIndex		: INT;
+	nPointIndexA	: INT;	
+	nPointIndexB	: INT;	
+	fTestValue		: LREAL;
+	idx1, idx2		: INT;
+	nStartFromTrack	: INT;
+	nEndAtTrack		: INT;
+	bCloseLoop		: BOOL;
+	
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[fbR_TrigExecute(CLK := bExecute);
+IF fbR_TrigExecute.Q AND NOT bBusy THEN
+	// Check if GroupRef is there, else throw an error
+		nState := 10;
+		bBusy := TRUE;
+		bError := FALSE;
+END_IF
+
+
+
+CASE nState OF 
+
+	10:	// Init Track-Table
+	
+		// *******************************************************************
+		// *** This code must be eddited according to machine/track layout ***
+		// *******************************************************************
+	
+		nStartFromTrack	:= 1;		// 0 for the first track all others according to their predecessor!
+	    	nEndAtTrack := 1;		// 0 for the first track all others according to their successor! 		
+			 bCloseLoop := FALSE;	// TRUE for circular track		
+	
+		TrackTable[1,1] := 480.0;	// x-koordinate
+		TrackTable[1,2] := 600.0;	// y-koordinate
+		TrackTable[1,3] :=   0.0;	// c
+		
+		TrackTable[2,1] := 720.0;	// x-koordinate
+		TrackTable[2,2] := 600.0;	// y-koordinate
+		TrackTable[2,3] :=   0.0;	// c		
+		
+		TrackTable[3,1] := 840.0;	// x-koordinate
+		TrackTable[3,2] := 480.0;	// y-koordinate
+		TrackTable[3,3] :=   0.0;	// c		
+	
+		TrackTable[4,1] := 840.0;	// x-koordinate
+		TrackTable[4,2] := 240.0;	// y-koordinate
+		TrackTable[4,3] :=   0.0;	// c		
+	
+		TrackTable[5,1] := 720.0;	// x-koordinate
+		TrackTable[5,2] := 120.0;	// y-koordinate
+		TrackTable[5,3] :=   0.0;	// c		
+	
+		TrackTable[6,1] := 480.0;	// x-koordinate
+		TrackTable[6,2] := 120.0;	// y-koordinate
+		TrackTable[6,3] :=   0.0;	// c			
+			
+		nState := 20;
+
+	20:	// Building the track 
+		IF fbTrackStandard.BuildTrack(TrackTable, ipTrack[1].std, ipTrack[1].std, bCloseLoop) THEN
+			nState := 30;
+		END_IF
+		
+	30: 	
+		IF fbTrackStandard.P_BuildTrack.Done THEN
+			nState := 100;
+		END_IF
+		
+					 
+	100: 	// MC_Reset Done
+			fTrackLength := fbTrackStandard.GetLength();
+				   bBusy := FALSE;
+			  Initialize := TRUE;
+			
+			IF NOT bExecute THEN
+				Initialize := FALSE;
+				    nState := 0;
+			END_IF
+	
+END_CASE]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_TrackSegment_3">
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TrackSegment_3.Initialize">
+      <LineId Id="208" Count="6" />
+      <LineId Id="400" Count="1" />
+      <LineId Id="429" Count="3" />
+      <LineId Id="572" Count="3" />
+      <LineId Id="518" Count="0" />
+      <LineId Id="672" Count="25" />
+      <LineId Id="595" Count="1" />
+      <LineId Id="607" Count="0" />
+      <LineId Id="733" Count="3" />
+      <LineId Id="608" Count="1" />
+      <LineId Id="719" Count="13" />
+      <LineId Id="624" Count="1" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

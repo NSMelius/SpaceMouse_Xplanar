@@ -1,0 +1,134 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="FB_SK_StateManager" Id="{b50383f9-c421-4744-8028-ae8d88a68bff}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_SK_StateManager
+
+VAR
+	bStartUpDone		: BOOL;	
+	bFirstAbortDone		: BOOL;
+	
+	eCommand			: E_XMotion_Command;	
+	eCommandOld			: E_XMotion_Command;
+	eStatus				: E_XMotion_Status;	
+	nCommandCounter		: UDINT;
+
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+	
+
+]]></ST>
+    </Implementation>
+    <Method Name="Cycle" Id="{b55ec817-8381-4105-8024-e51681504619}">
+      <Declaration><![CDATA[METHOD PUBLIC Cycle
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+
+	IF NOT bStartUpDone THEN					
+		eStatus := E_XMotion_Status.StartUp;
+	ELSIF NOT bFirstAbortDone THEN
+		eStatus := E_XMotion_Status.Aborting;
+	ELSE
+
+		IF eCommand <> eCommandOld THEN
+			eCommandOld := eCommand;
+	
+			nCommandCounter := nCommandCounter +1;
+			
+			
+			CASE eCommand OF
+				
+			
+			E_XMotion_Command.Abort:	
+						eStatus := E_XMotion_Status.Aborting;	
+			
+			E_XMotion_Command.Reset:
+						IF eStatus = E_XMotion_Status.Aborted THEN
+							eStatus := E_XMotion_Status.Resetting;	
+						END_IF
+				
+			E_XMotion_Command.Prepare:
+						IF eStatus = E_XMotion_Status.Stopped THEN
+							eStatus := E_XMotion_Status.Preparing;	
+						END_IF	
+			
+			E_XMotion_Command.Start:
+						IF eStatus = E_XMotion_Status.Prepared THEN
+							eStatus := E_XMotion_Status.Execute;	
+						END_IF	
+
+			E_XMotion_Command.HoldOnError:
+						eStatus := E_XMotion_Status.HoldOnError;
+
+					
+			END_CASE
+		END_IF
+		
+	END_IF
+	]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="StateComplete" Id="{4028cc9d-cb45-4cdb-adc3-6e745daebc8d}">
+      <Declaration><![CDATA[METHOD PUBLIC StateComplete : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+
+
+
+	CASE eStatus OF
+		
+	E_XMotion_Status.StartUp:
+				bStartUpDone := TRUE;
+				
+	E_XMotion_Status.Aborting:
+				bFirstAbortDone := TRUE;	
+				eStatus := E_XMotion_Status.Aborted;	
+	
+	E_XMotion_Status.Resetting:
+				eStatus := E_XMotion_Status.Stopped;
+		
+	E_XMotion_Status.Preparing:
+				eStatus := E_XMotion_Status.Prepared;
+	
+				
+	END_CASE
+	
+	
+	
+	
+	
+	
+	]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="Status" Id="{08773a9d-3e92-4f76-822b-ff8c7dd0cab9}">
+      <Declaration><![CDATA[PROPERTY Status : E_XMotion_Status]]></Declaration>
+      <Get Name="Get" Id="{b7aa7ae1-1139-4f97-9264-193f48a2ef87}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Status := eStatus;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="XMotionCommand" Id="{8b04df2b-3437-44f8-b280-10920a7d4b1a}">
+      <Declaration><![CDATA[PROPERTY XMotionCommand : E_XMotion_Command]]></Declaration>
+      <Set Name="Set" Id="{a90f7e29-ae12-4fd1-a0ae-d9a73140d215}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[eCommand := XMotionCommand;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+  </POU>
+</TcPlcObject>

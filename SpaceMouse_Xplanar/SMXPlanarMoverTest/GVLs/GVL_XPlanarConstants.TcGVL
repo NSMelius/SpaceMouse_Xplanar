@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <GVL Name="GVL_XPlanarConstants" Id="{5e320656-3aaa-4939-bb36-843a4a907a31}">
+    <Declaration><![CDATA[
+VAR_GLOBAL CONSTANT
+	
+	TileWidth : INT :=240;
+	TileHeight	: INT := 240;
+	MaxXYVelocity	: LREAL := 100.0;
+	MaxZABCVelocity	: LREAL	:= 10.0;
+	MaxAccerlation	: LREAL := 100.0;
+	delta	: LREAL := 0.01;
+	zPosMax	: LREAL := 4;
+	zPosMin : LREAL := 0;
+END_VAR]]></Declaration>
+  </GVL>
+</TcPlcObject>

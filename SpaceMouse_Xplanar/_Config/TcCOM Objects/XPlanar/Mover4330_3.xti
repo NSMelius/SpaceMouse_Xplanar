@@ -1,0 +1,1164 @@
+<?xml version="1.0"?>
+<TcSmItem xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4024.15" ClassName="CTComObjDef">
+	<DataTypes>
+		<DataType>
+			<Name GUID="{8786775D-A1D5-40B3-81D2-4C805CF66C59}">MoverType</Name>
+			<BitSize>16</BitSize>
+			<BaseType GUID="{18071995-0000-0000-0000-000000000006}">INT</BaseType>
+			<EnumInfo>
+				<Text><![CDATA[APM4330]]></Text>
+				<Enum>0</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[APM4220]]></Text>
+				<Enum>1</Enum>
+			</EnumInfo>
+			<EnumInfo>
+				<Text><![CDATA[APM4550]]></Text>
+				<Enum>2</Enum>
+			</EnumInfo>
+			<Default>
+				<EnumText>APM4330</EnumText>
+			</Default>
+		</DataType>
+		<DataType>
+			<Name GUID="{FB6AAFBD-C50F-4899-A7E6-D2EC98B47823}">SimulationModeStartPosition</Name>
+			<BitSize>192</BitSize>
+			<SubItem>
+				<Name>X</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<BitSize>64</BitSize>
+				<BitOffs>0</BitOffs>
+				<Unit><![CDATA[mm]]></Unit>
+			</SubItem>
+			<SubItem>
+				<Name>Y</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<BitSize>64</BitSize>
+				<BitOffs>64</BitOffs>
+				<Unit><![CDATA[mm]]></Unit>
+			</SubItem>
+			<SubItem>
+				<Name>MovementArea</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000F}">OTCID</Type>
+				<BitSize>32</BitSize>
+				<BitOffs>128</BitOffs>
+			</SubItem>
+		</DataType>
+		<DataType>
+			<Name GUID="{A15D98EE-1634-4232-BE69-1205EC3DDAAD}">Force6D</Name>
+			<BitSize>384</BitSize>
+			<SubItem>
+				<Name>x</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<BitSize>64</BitSize>
+				<BitOffs>0</BitOffs>
+				<Unit><![CDATA[N]]></Unit>
+			</SubItem>
+			<SubItem>
+				<Name>y</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<BitSize>64</BitSize>
+				<BitOffs>64</BitOffs>
+				<Unit><![CDATA[N]]></Unit>
+			</SubItem>
+			<SubItem>
+				<Name>z</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<BitSize>64</BitSize>
+				<BitOffs>128</BitOffs>
+				<Unit><![CDATA[N]]></Unit>
+			</SubItem>
+			<SubItem>
+				<Name>a</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<BitSize>64</BitSize>
+				<BitOffs>192</BitOffs>
+				<Unit><![CDATA[Nm]]></Unit>
+			</SubItem>
+			<SubItem>
+				<Name>b</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<BitSize>64</BitSize>
+				<BitOffs>256</BitOffs>
+				<Unit><![CDATA[Nm]]></Unit>
+			</SubItem>
+			<SubItem>
+				<Name>c</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<BitSize>64</BitSize>
+				<BitOffs>320</BitOffs>
+				<Unit><![CDATA[Nm]]></Unit>
+			</SubItem>
+		</DataType>
+		<DataType>
+			<Name GUID="{1E59E638-277A-455E-A55C-4760BB7935C5}">Bool6D</Name>
+			<BitSize>48</BitSize>
+			<SubItem>
+				<Name>x</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
+				<BitSize>8</BitSize>
+				<BitOffs>0</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>y</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
+				<BitSize>8</BitSize>
+				<BitOffs>8</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>z</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
+				<BitSize>8</BitSize>
+				<BitOffs>16</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>a</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
+				<BitSize>8</BitSize>
+				<BitOffs>24</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>b</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
+				<BitSize>8</BitSize>
+				<BitOffs>32</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>c</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
+				<BitSize>8</BitSize>
+				<BitOffs>40</BitOffs>
+			</SubItem>
+		</DataType>
+		<DataType>
+			<Name GUID="{37C687C7-4849-49C3-9378-1D55EE704BE2}">Inertia</Name>
+			<BitSize>448</BitSize>
+			<SubItem>
+				<Name>Mass</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<Comment><![CDATA[Mass]]></Comment>
+				<BitSize>64</BitSize>
+				<BitOffs>0</BitOffs>
+				<Unit><![CDATA[kg]]></Unit>
+				<Default>
+					<Value>0.0</Value>
+				</Default>
+			</SubItem>
+			<SubItem>
+				<Name>AAxisInertia</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<Comment><![CDATA[A-Axis inertia]]></Comment>
+				<BitSize>64</BitSize>
+				<BitOffs>64</BitOffs>
+				<Unit><![CDATA[kg*m^2]]></Unit>
+				<Default>
+					<Value>0.0</Value>
+				</Default>
+			</SubItem>
+			<SubItem>
+				<Name>BAxisInertia</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<Comment><![CDATA[B-Axis inertia]]></Comment>
+				<BitSize>64</BitSize>
+				<BitOffs>128</BitOffs>
+				<Unit><![CDATA[kg*m^2]]></Unit>
+				<Default>
+					<Value>0.0</Value>
+				</Default>
+			</SubItem>
+			<SubItem>
+				<Name>CAxisInertia</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<Comment><![CDATA[C-Axis inertia]]></Comment>
+				<BitSize>64</BitSize>
+				<BitOffs>192</BitOffs>
+				<Unit><![CDATA[kg*m^2]]></Unit>
+				<Default>
+					<Value>0.0</Value>
+				</Default>
+			</SubItem>
+			<SubItem>
+				<Name>CentreOfMassX</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<Comment><![CDATA[X-distance from setpoint origin to centre of mass.]]></Comment>
+				<BitSize>64</BitSize>
+				<BitOffs>256</BitOffs>
+				<Unit><![CDATA[mm]]></Unit>
+				<Default>
+					<Value>0.0</Value>
+				</Default>
+			</SubItem>
+			<SubItem>
+				<Name>CentreOfMassY</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<Comment><![CDATA[Y-distance from setpoint origin to centre of mass.]]></Comment>
+				<BitSize>64</BitSize>
+				<BitOffs>320</BitOffs>
+				<Unit><![CDATA[mm]]></Unit>
+				<Default>
+					<Value>0.0</Value>
+				</Default>
+			</SubItem>
+			<SubItem>
+				<Name>CentreOfMassZ</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<Comment><![CDATA[Z-distance from setpoint origin to centre of mass.]]></Comment>
+				<BitSize>64</BitSize>
+				<BitOffs>384</BitOffs>
+				<Unit><![CDATA[mm]]></Unit>
+				<Default>
+					<Value>0.0</Value>
+				</Default>
+			</SubItem>
+		</DataType>
+		<DataType>
+			<Name GUID="{E9D95441-913B-4D5D-83F5-1549C8A588DE}">Position2D_LREAL</Name>
+			<BitSize>128</BitSize>
+			<SubItem>
+				<Name>x</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<BitSize>64</BitSize>
+				<BitOffs>0</BitOffs>
+				<Unit><![CDATA[mm]]></Unit>
+			</SubItem>
+			<SubItem>
+				<Name>y</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<BitSize>64</BitSize>
+				<BitOffs>64</BitOffs>
+				<Unit><![CDATA[mm]]></Unit>
+			</SubItem>
+		</DataType>
+		<DataType>
+			<Name GUID="{BFA473E7-B6FF-4886-B775-0F8601039722}">EnterOrLeaveMovementAreaParameters</Name>
+			<BitSize>192</BitSize>
+			<SubItem>
+				<Name>Positions</Name>
+				<Type GUID="{E9D95441-913B-4D5D-83F5-1549C8A588DE}">Position2D_LREAL</Type>
+				<BitSize>128</BitSize>
+				<BitOffs>0</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>MovementAreaOID</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000F}">OTCID</Type>
+				<BitSize>32</BitSize>
+				<BitOffs>128</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Result</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</Type>
+				<BitSize>32</BitSize>
+				<BitOffs>160</BitOffs>
+			</SubItem>
+		</DataType>
+		<DataType>
+			<Name GUID="{5AC0538E-BDFA-4B58-A6B5-99E997DABADA}" Namespace="MC">MoverVector</Name>
+			<Comment><![CDATA[A vector of six numeric values corresponding to the six coordinates of the PlanarMover. May be used e.g. for position, velocity or acceleration of the PlanarMover.]]></Comment>
+			<BitSize>384</BitSize>
+			<SubItem>
+				<Name>x</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<Comment><![CDATA[X coordinate.]]></Comment>
+				<BitSize>64</BitSize>
+				<BitOffs>0</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>y</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<Comment><![CDATA[Y coordinate.]]></Comment>
+				<BitSize>64</BitSize>
+				<BitOffs>64</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>z</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<Comment><![CDATA[Z coordinate.]]></Comment>
+				<BitSize>64</BitSize>
+				<BitOffs>128</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>a</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<Comment><![CDATA[A coordinate.]]></Comment>
+				<BitSize>64</BitSize>
+				<BitOffs>192</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>b</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<Comment><![CDATA[B coordinate.]]></Comment>
+				<BitSize>64</BitSize>
+				<BitOffs>256</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>c</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<Comment><![CDATA[C coordinate.]]></Comment>
+				<BitSize>64</BitSize>
+				<BitOffs>320</BitOffs>
+			</SubItem>
+		</DataType>
+		<DataType>
+			<Name GUID="{FFD2EC73-FD67-47FC-94B1-452D4EA94D28}">MoverPositionInfo</Name>
+			<BitSize>448</BitSize>
+			<SubItem>
+				<Name>ActualPosition</Name>
+				<Type GUID="{5AC0538E-BDFA-4B58-A6B5-99E997DABADA}" Namespace="MC">MoverVector</Type>
+				<BitSize>384</BitSize>
+				<BitOffs>0</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>PartOID</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000F}">OTCID</Type>
+				<BitSize>32</BitSize>
+				<BitOffs>384</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>MovementAreaOID</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000F}">OTCID</Type>
+				<BitSize>32</BitSize>
+				<BitOffs>416</BitOffs>
+			</SubItem>
+		</DataType>
+		<DataType>
+			<Name GUID="{DC5F48D2-AA86-4C07-8558-73F57FBCB66F}">Position6D</Name>
+			<BitSize>384</BitSize>
+			<SubItem>
+				<Name>x</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<BitSize>64</BitSize>
+				<BitOffs>0</BitOffs>
+				<Unit><![CDATA[mm]]></Unit>
+			</SubItem>
+			<SubItem>
+				<Name>y</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<BitSize>64</BitSize>
+				<BitOffs>64</BitOffs>
+				<Unit><![CDATA[mm]]></Unit>
+			</SubItem>
+			<SubItem>
+				<Name>z</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<BitSize>64</BitSize>
+				<BitOffs>128</BitOffs>
+				<Unit><![CDATA[mm]]></Unit>
+			</SubItem>
+			<SubItem>
+				<Name>a</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<BitSize>64</BitSize>
+				<BitOffs>192</BitOffs>
+				<Unit><![CDATA[rad]]></Unit>
+			</SubItem>
+			<SubItem>
+				<Name>b</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<BitSize>64</BitSize>
+				<BitOffs>256</BitOffs>
+				<Unit><![CDATA[rad]]></Unit>
+			</SubItem>
+			<SubItem>
+				<Name>c</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<BitSize>64</BitSize>
+				<BitOffs>320</BitOffs>
+				<Unit><![CDATA[rad]]></Unit>
+			</SubItem>
+		</DataType>
+		<DataType>
+			<Name GUID="{1D4A3032-618B-420C-84A3-64BF0ABEA860}">Velocity6D</Name>
+			<BitSize>384</BitSize>
+			<SubItem>
+				<Name>x</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<BitSize>64</BitSize>
+				<BitOffs>0</BitOffs>
+				<Unit><![CDATA[mm/s]]></Unit>
+			</SubItem>
+			<SubItem>
+				<Name>y</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<BitSize>64</BitSize>
+				<BitOffs>64</BitOffs>
+				<Unit><![CDATA[mm/s]]></Unit>
+			</SubItem>
+			<SubItem>
+				<Name>z</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<BitSize>64</BitSize>
+				<BitOffs>128</BitOffs>
+				<Unit><![CDATA[mm/s]]></Unit>
+			</SubItem>
+			<SubItem>
+				<Name>a</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<BitSize>64</BitSize>
+				<BitOffs>192</BitOffs>
+				<Unit><![CDATA[rad/s]]></Unit>
+			</SubItem>
+			<SubItem>
+				<Name>b</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<BitSize>64</BitSize>
+				<BitOffs>256</BitOffs>
+				<Unit><![CDATA[rad/s]]></Unit>
+			</SubItem>
+			<SubItem>
+				<Name>c</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<BitSize>64</BitSize>
+				<BitOffs>320</BitOffs>
+				<Unit><![CDATA[rad/s]]></Unit>
+			</SubItem>
+		</DataType>
+		<DataType>
+			<Name GUID="{34B7A662-B316-4C8D-970F-E14B8CBF5AF3}">Acceleration6D</Name>
+			<BitSize>384</BitSize>
+			<SubItem>
+				<Name>x</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<BitSize>64</BitSize>
+				<BitOffs>0</BitOffs>
+				<Unit><![CDATA[mm/s^2]]></Unit>
+			</SubItem>
+			<SubItem>
+				<Name>y</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<BitSize>64</BitSize>
+				<BitOffs>64</BitOffs>
+				<Unit><![CDATA[mm/s^2]]></Unit>
+			</SubItem>
+			<SubItem>
+				<Name>z</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<BitSize>64</BitSize>
+				<BitOffs>128</BitOffs>
+				<Unit><![CDATA[mm/s^2]]></Unit>
+			</SubItem>
+			<SubItem>
+				<Name>a</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<BitSize>64</BitSize>
+				<BitOffs>192</BitOffs>
+				<Unit><![CDATA[rad/s^2]]></Unit>
+			</SubItem>
+			<SubItem>
+				<Name>b</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<BitSize>64</BitSize>
+				<BitOffs>256</BitOffs>
+				<Unit><![CDATA[rad/s^2]]></Unit>
+			</SubItem>
+			<SubItem>
+				<Name>c</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type>
+				<BitSize>64</BitSize>
+				<BitOffs>320</BitOffs>
+				<Unit><![CDATA[rad/s^2]]></Unit>
+			</SubItem>
+		</DataType>
+		<DataType>
+			<Name GUID="{F6B8E2E8-5F96-45E0-AD21-3E97B7E9BDB2}" Namespace="MC">CDT_MCTOHW_MOVER</Name>
+			<BitSize>1408</BitSize>
+			<SubItem>
+				<Name>SetPos</Name>
+				<Type GUID="{5AC0538E-BDFA-4B58-A6B5-99E997DABADA}" Namespace="MC">MoverVector</Type>
+				<BitSize>384</BitSize>
+				<BitOffs>0</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>SetVelo</Name>
+				<Type GUID="{5AC0538E-BDFA-4B58-A6B5-99E997DABADA}" Namespace="MC">MoverVector</Type>
+				<BitSize>384</BitSize>
+				<BitOffs>384</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>SetAcc</Name>
+				<Type GUID="{5AC0538E-BDFA-4B58-A6B5-99E997DABADA}" Namespace="MC">MoverVector</Type>
+				<BitSize>384</BitSize>
+				<BitOffs>768</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>DcTimeStamp</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000B}">ULINT</Type>
+				<BitSize>64</BitSize>
+				<BitOffs>1152</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>PhysicalAreaID</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000008}">UDINT</Type>
+				<BitSize>32</BitSize>
+				<BitOffs>1216</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>MovementAreaID</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000008}">UDINT</Type>
+				<BitSize>32</BitSize>
+				<BitOffs>1280</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>MasterID</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000008}">UDINT</Type>
+				<BitSize>32</BitSize>
+				<BitOffs>1312</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>CoEcontrol1</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000001}">BYTE</Type>
+				<BitSize>8</BitSize>
+				<BitOffs>1344</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>CoEcontrol2</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000001}">BYTE</Type>
+				<BitSize>8</BitSize>
+				<BitOffs>1352</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>MoverOID</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000F}">OTCID</Type>
+				<BitSize>32</BitSize>
+				<BitOffs>1376</BitOffs>
+			</SubItem>
+		</DataType>
+		<DataType>
+			<Name GUID="{DCBC2796-F4A6-49ED-AD13-8E71F04F5FD7}" Namespace="MC">CDT_HWTOMC_MOVER</Name>
+			<BitSize>960</BitSize>
+			<SubItem>
+				<Name>ActPos</Name>
+				<Type GUID="{5AC0538E-BDFA-4B58-A6B5-99E997DABADA}" Namespace="MC">MoverVector</Type>
+				<BitSize>384</BitSize>
+				<BitOffs>0</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>ActVelo</Name>
+				<Type GUID="{5AC0538E-BDFA-4B58-A6B5-99E997DABADA}" Namespace="MC">MoverVector</Type>
+				<BitSize>384</BitSize>
+				<BitOffs>384</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>DcTimeStamp</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000B}">ULINT</Type>
+				<BitSize>64</BitSize>
+				<BitOffs>768</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>PhysicalAreaID</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000008}">UDINT</Type>
+				<BitSize>32</BitSize>
+				<BitOffs>832</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>ErrorCode</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000004}">WORD</Type>
+				<BitSize>16</BitSize>
+				<BitOffs>896</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>CoEstatus1</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000001}">BYTE</Type>
+				<BitSize>8</BitSize>
+				<BitOffs>912</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>CoEstatus2</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000001}">BYTE</Type>
+				<BitSize>8</BitSize>
+				<BitOffs>920</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>HardwareMoverOID</Name>
+				<Type GUID="{18071995-0000-0000-0000-00000000000F}">OTCID</Type>
+				<BitSize>32</BitSize>
+				<BitOffs>928</BitOffs>
+			</SubItem>
+		</DataType>
+	</DataTypes>
+	<ImageDatas>
+		<ImageData Id="1000">424d360300000000000036000000280000001000000010000000010018000000000000000000c30e0000c30e000000000000000000003d3b293d3b293d3b293d3b293d3b293d3b293d3b293d3b293d3b293d3b293d3b293d3b293d3b293d3b293d3b293d3b293d3b297b766f7a756d79746c77726a767168756f66736e64716c626f695f6d675d6b655a696358666155645e523d3b293d3b297f7a737f7b727e7a717c78707a766d78746bb6b4aeb6b4ae726d63706a606d685d6b665b6964586661553d3b293d3b2989847e8a867f8a867e88847cb6b4aeb6b4ae3d3b293d3b29b6b4aeb6b4ae706b606d685d6b665b6863583d3b293d3b2995918b96938db6b4aeb6b4ae3d3b293d3b2988837b817c743d3b293d3b29b6b4aeb6b4ae6d685d6b655a3d3b293d3b29a19e98b6b4ae3d3b293d3b299e9b943d3b29b6b4aeb6b4ae3d3b29a09c963d3b293d3b29b6b4ae6d675d3d3b293d3b29aca9a43d3b29aeaba6adaaa4a9a6a13d3b293d3b293d3b293d3b29a09c967b766d7570663d3b29b6b4ae3d3b293d3b29b6b3ae3d3b29b9b6b2b7b5b13d3b293d3b29a9a6a0a09c963d3b293d3b29a09c96a09c963d3b29b6b4ae3d3b293d3b29c1bfbb3d3b293d3b293d3b29bfbcb8bab8b3b3b0aba9a6a0a09c9696928b3d3b293d3b293d3b29b6b4ae3d3b293d3b29cac8c53d3b29ceccc9cccbc7c9c7c4c3c1bdbbb8b4b1aea9a6a39d9c9891908c85847f773d3b29b6b4ae3d3b293d3b29d1cfcd3d3b29d7d6d3d6d5d2d1cfcdcac8c5c1bebab6b4afaca9a3a09d9795918a89847d3d3b29b6b4ae3d3b293d3b29d6d4d2dcdbd93d3b293d3b29d6d5d2cfcdcac5c3c0bab8b3afaca7a4a19b3d3b293d3b297f7a7277736b3d3b293d3b29d9d7d6e0dfdde5e4e2e2e1df3d3b293d3b29c7c5c2bcb9b53d3b293d3b299a96908d8982807c7479756c3d3b293d3b29d8d6d5dedddce2e1e0dfdeddd8d7d5d0cfcc3d3b293d3b29b1aeaaa6a39d9a96918e8a84817d767a766e3d3b293d3b29d4d2d1d9d7d6dad9d8d9d8d6d4d2d0cdcbc9c4c2bfbab7b3afaca8a5a19c9995908d8983817c757b766f3d3b293d3b293d3b293d3b293d3b293d3b293d3b293d3b293d3b293d3b293d3b293d3b293d3b293d3b293d3b293d3b293d3b29</ImageData>
+	</ImageDatas>
+	<Module Id="#x01010120" Disabled="true" KeepUnrestoredLinks="2">
+		<Name>__FILENAME__</Name>
+		<ImageId>1000</ImageId>
+		<TmcDesc GUID="{BEC45175-C8A2-4DC9-AA5E-C6CB75FBB741}">
+			<Name>XPlanarMover</Name>
+			<CLSID ClassFactory="TcIoXPlanar">{BEC45175-C8A2-4DC9-AA5E-C6CB75FBB741}</CLSID>
+			<InitSequence>PSO</InitSequence>
+			<Contexts>
+				<Context>
+					<Id>1</Id>
+					<ManualConfig>
+						<OTCID>#x02010090</OTCID>
+					</ManualConfig>
+					<Priority>5</Priority>
+					<CycleTime>250000</CycleTime>
+				</Context>
+			</Contexts>
+			<Interfaces>
+				<Interface DisableCodeGeneration="true">
+					<Type GUID="{00000012-0000-0000-E000-000000000064}">ITComObject</Type>
+				</Interface>
+				<Interface DisableCodeGeneration="true">
+					<Type GUID="{03000012-0000-0000-E000-000000000064}">ITcADI</Type>
+				</Interface>
+				<Interface DisableCodeGeneration="true">
+					<Type GUID="{03000018-0000-0000-E000-000000000064}">ITcWatchSource</Type>
+				</Interface>
+			</Interfaces>
+			<Parameters>
+				<Group><![CDATA[General]]></Group>
+				<Group><![CDATA[ForceLimits]]></Group>
+				<Group><![CDATA[Controller]]></Group>
+				<Group><![CDATA[Methods]]></Group>
+				<Parameter HideParameter="true" DisableCodeGeneration="true" Group="General">
+					<Name>TaskOID</Name>
+					<Comment><![CDATA[The task has to be set in the Context tab.]]></Comment>
+					<BitSize>32</BitSize>
+					<BaseType GUID="{18071995-0000-0000-0000-00000000000F}">OTCID</BaseType>
+					<PTCID>#x03002060</PTCID>
+					<ContextId>1</ContextId>
+				</Parameter>
+				<Parameter DisableCodeGeneration="true" Group="General">
+					<Name>MoverType</Name>
+					<Comment><![CDATA[The mover type has to fit to the physical mover.]]></Comment>
+					<BitSize>16</BitSize>
+					<BaseType GUID="{8786775D-A1D5-40B3-81D2-4C805CF66C59}">MoverType</BaseType>
+					<PTCID>#x03175058</PTCID>
+					<ContextId>1</ContextId>
+				</Parameter>
+				<Parameter DisableCodeGeneration="true" Group="General">
+					<Name>BTN</Name>
+					<Comment><![CDATA[8 digit alphanumerical number. Has to be unique for each mover of a type. Has to match with a reference in the corresponding MoverPositionFeedback bml file.]]></Comment>
+					<BitSize>112</BitSize>
+					<BaseType GUID="{18071995-0000-0000-0000-00010000000D}">STRING(13)</BaseType>
+					<PTCID>#x03175000</PTCID>
+					<ContextId>1</ContextId>
+				</Parameter>
+				<Parameter DisableCodeGeneration="true" Group="General">
+					<Name>SimulationModeStartPosition</Name>
+					<Comment><![CDATA[In simulation mode the mover needs a position to start from.]]></Comment>
+					<BitSize>192</BitSize>
+					<BaseType GUID="{FB6AAFBD-C50F-4899-A7E6-D2EC98B47823}">SimulationModeStartPosition</BaseType>
+					<PTCID>#x03175001</PTCID>
+					<ContextId>1</ContextId>
+				</Parameter>
+				<Parameter DisableCodeGeneration="true" Group="ForceLimits">
+					<Name>ForceLimitMax</Name>
+					<Comment><![CDATA[Maximum of the force limit that limits the controller output force. If all values are zero default values are used.]]></Comment>
+					<BitSize>384</BitSize>
+					<BaseType GUID="{A15D98EE-1634-4232-BE69-1205EC3DDAAD}">Force6D</BaseType>
+					<Default>
+						<SubItem>
+							<Name>.x</Name>
+							<Value>0.0</Value>
+						</SubItem>
+						<SubItem>
+							<Name>.y</Name>
+							<Value>0.0</Value>
+						</SubItem>
+						<SubItem>
+							<Name>.z</Name>
+							<Value>0.0</Value>
+						</SubItem>
+						<SubItem>
+							<Name>.a</Name>
+							<Value>0.0</Value>
+						</SubItem>
+						<SubItem>
+							<Name>.b</Name>
+							<Value>0.0</Value>
+						</SubItem>
+						<SubItem>
+							<Name>.c</Name>
+							<Value>0.0</Value>
+						</SubItem>
+					</Default>
+					<PTCID>#x03175051</PTCID>
+					<ContextId>1</ContextId>
+				</Parameter>
+				<Parameter DisableCodeGeneration="true" Group="ForceLimits">
+					<Name>ForceLimitMin</Name>
+					<Comment><![CDATA[Minimum of the force limit that limits the controller output force. If all values are zero default values are used.]]></Comment>
+					<BitSize>384</BitSize>
+					<BaseType GUID="{A15D98EE-1634-4232-BE69-1205EC3DDAAD}">Force6D</BaseType>
+					<Default>
+						<SubItem>
+							<Name>.x</Name>
+							<Value>0.0</Value>
+						</SubItem>
+						<SubItem>
+							<Name>.y</Name>
+							<Value>0.0</Value>
+						</SubItem>
+						<SubItem>
+							<Name>.z</Name>
+							<Value>0.0</Value>
+						</SubItem>
+						<SubItem>
+							<Name>.a</Name>
+							<Value>0.0</Value>
+						</SubItem>
+						<SubItem>
+							<Name>.b</Name>
+							<Value>0.0</Value>
+						</SubItem>
+						<SubItem>
+							<Name>.c</Name>
+							<Value>0.0</Value>
+						</SubItem>
+					</Default>
+					<PTCID>#x03175052</PTCID>
+					<ContextId>1</ContextId>
+				</Parameter>
+				<Parameter HideParameter="true" DisableCodeGeneration="true" Group="Controller">
+					<Name>ControllersOn</Name>
+					<Comment><![CDATA[If a controller is off no force is generated in this axis.]]></Comment>
+					<BitSize>48</BitSize>
+					<BaseType GUID="{1E59E638-277A-455E-A55C-4760BB7935C5}">Bool6D</BaseType>
+					<Default>
+						<SubItem>
+							<Name>.x</Name>
+							<EnumText>TRUE</EnumText>
+						</SubItem>
+						<SubItem>
+							<Name>.y</Name>
+							<EnumText>TRUE</EnumText>
+						</SubItem>
+						<SubItem>
+							<Name>.z</Name>
+							<EnumText>TRUE</EnumText>
+						</SubItem>
+						<SubItem>
+							<Name>.a</Name>
+							<EnumText>TRUE</EnumText>
+						</SubItem>
+						<SubItem>
+							<Name>.b</Name>
+							<EnumText>TRUE</EnumText>
+						</SubItem>
+						<SubItem>
+							<Name>.c</Name>
+							<EnumText>TRUE</EnumText>
+						</SubItem>
+					</Default>
+					<PTCID>#x03175069</PTCID>
+					<ContextId>1</ContextId>
+				</Parameter>
+				<Parameter DisableCodeGeneration="true" Group="General">
+					<Name>PayloadInertia</Name>
+					<Comment><![CDATA[Inertia parameters for any payload loaded on the mover. Basic inertia, e.g. for mover+fixed tooling, can be set in the general parameter set.]]></Comment>
+					<BitSize>448</BitSize>
+					<BaseType GUID="{37C687C7-4849-49C3-9378-1D55EE704BE2}">Inertia</BaseType>
+					<PTCID>#x03175040</PTCID>
+					<ContextId>1</ContextId>
+				</Parameter>
+				<Parameter DisableCodeGeneration="true" Group="General">
+					<Name>ParametrizationSetId</Name>
+					<Comment><![CDATA[If not assigned, the mover will take its internal standard parameters.]]></Comment>
+					<BitSize>32</BitSize>
+					<BaseType GUID="{18071995-0000-0000-0000-00000000000F}">OTCID</BaseType>
+					<PTCID>#x03175041</PTCID>
+					<ContextId>1</ContextId>
+				</Parameter>
+				<Parameter HideParameter="true" DisableCodeGeneration="true" Group="Methods">
+					<Name>EnterOrLeaveMovementArea</Name>
+					<Comment><![CDATA[Triggers entering of this mover at defined position of defined MA]]></Comment>
+					<BitSize>192</BitSize>
+					<BaseType GUID="{BFA473E7-B6FF-4886-B775-0F8601039722}">EnterOrLeaveMovementAreaParameters</BaseType>
+					<PTCID>#x03175056</PTCID>
+					<ContextId>1</ContextId>
+				</Parameter>
+				<Parameter OnlineParameter="true" DisableCodeGeneration="true" ReadOnly="true">
+					<Name>ActualPositions</Name>
+					<Comment><![CDATA[Actual positions, part and movement area OIDs]]></Comment>
+					<BitSize>448</BitSize>
+					<BaseType GUID="{FFD2EC73-FD67-47FC-94B1-452D4EA94D28}">MoverPositionInfo</BaseType>
+					<PTCID>#x03175045</PTCID>
+					<ContextId>1</ContextId>
+				</Parameter>
+				<Parameter OnlineParameter="true" DisableCodeGeneration="true" ReadOnly="true">
+					<Name>NcMoverOID</Name>
+					<Comment><![CDATA[OID of the NC mapping object]]></Comment>
+					<BitSize>32</BitSize>
+					<BaseType GUID="{18071995-0000-0000-0000-00000000000F}">OTCID</BaseType>
+					<PTCID>#x03175053</PTCID>
+					<ContextId>1</ContextId>
+				</Parameter>
+			</Parameters>
+			<DataAreas>
+				<DataArea>
+					<AreaNo AreaType="Internal" CreateSymbols="true">1</AreaNo>
+					<Name>ScopeData</Name>
+					<ContextId>1</ContextId>
+					<ByteSize>676</ByteSize>
+					<Symbol>
+						<Name>ActualPositions</Name>
+						<BitSize>384</BitSize>
+						<BaseType GUID="{DC5F48D2-AA86-4C07-8558-73F57FBCB66F}">Position6D</BaseType>
+						<Unit><![CDATA[mm, rad]]></Unit>
+						<BitOffs>0</BitOffs>
+					</Symbol>
+					<Symbol>
+						<Name>PositionError</Name>
+						<BitSize>384</BitSize>
+						<BaseType GUID="{DC5F48D2-AA86-4C07-8558-73F57FBCB66F}">Position6D</BaseType>
+						<Unit><![CDATA[mm, rad]]></Unit>
+						<BitOffs>384</BitOffs>
+					</Symbol>
+					<Symbol>
+						<Name>ActualVelocities</Name>
+						<BitSize>384</BitSize>
+						<BaseType GUID="{1D4A3032-618B-420C-84A3-64BF0ABEA860}">Velocity6D</BaseType>
+						<Unit><![CDATA[mm/s, rad/s]]></Unit>
+						<BitOffs>768</BitOffs>
+					</Symbol>
+					<Symbol>
+						<Name>ActualAccelerations</Name>
+						<BitSize>384</BitSize>
+						<BaseType GUID="{34B7A662-B316-4C8D-970F-E14B8CBF5AF3}">Acceleration6D</BaseType>
+						<Unit><![CDATA[mm/s^2, rad/s^2]]></Unit>
+						<BitOffs>1152</BitOffs>
+					</Symbol>
+					<Symbol>
+						<Name>ExternalPositionSetpoints</Name>
+						<BitSize>384</BitSize>
+						<BaseType GUID="{DC5F48D2-AA86-4C07-8558-73F57FBCB66F}">Position6D</BaseType>
+						<Unit><![CDATA[mm, rad]]></Unit>
+						<BitOffs>1536</BitOffs>
+					</Symbol>
+					<Symbol>
+						<Name>ExternalVelocitySetpoints</Name>
+						<BitSize>384</BitSize>
+						<BaseType GUID="{1D4A3032-618B-420C-84A3-64BF0ABEA860}">Velocity6D</BaseType>
+						<Unit><![CDATA[mm/s, rad/s]]></Unit>
+						<BitOffs>1920</BitOffs>
+					</Symbol>
+					<Symbol>
+						<Name>ExternalAccelerationSetpoints</Name>
+						<BitSize>384</BitSize>
+						<BaseType GUID="{34B7A662-B316-4C8D-970F-E14B8CBF5AF3}">Acceleration6D</BaseType>
+						<Unit><![CDATA[mm/s^2, rad/s^2]]></Unit>
+						<BitOffs>2304</BitOffs>
+					</Symbol>
+					<Symbol>
+						<Name>InterpolatedPositionSetpoints</Name>
+						<BitSize>384</BitSize>
+						<BaseType GUID="{DC5F48D2-AA86-4C07-8558-73F57FBCB66F}">Position6D</BaseType>
+						<Unit><![CDATA[mm, rad]]></Unit>
+						<BitOffs>2688</BitOffs>
+					</Symbol>
+					<Symbol>
+						<Name>InterpolatedVelocitySetpoints</Name>
+						<BitSize>384</BitSize>
+						<BaseType GUID="{1D4A3032-618B-420C-84A3-64BF0ABEA860}">Velocity6D</BaseType>
+						<Unit><![CDATA[mm/s, rad/s]]></Unit>
+						<BitOffs>3072</BitOffs>
+					</Symbol>
+					<Symbol>
+						<Name>InterpolatedAccelerationSetpoints</Name>
+						<BitSize>384</BitSize>
+						<BaseType GUID="{34B7A662-B316-4C8D-970F-E14B8CBF5AF3}">Acceleration6D</BaseType>
+						<Unit><![CDATA[mm/s^2, rad/s^2]]></Unit>
+						<BitOffs>3456</BitOffs>
+					</Symbol>
+					<Symbol>
+						<Name>NcDcTimeStamp</Name>
+						<BitSize>64</BitSize>
+						<BaseType GUID="{18071995-0000-0000-0000-00000000000B}">ULINT</BaseType>
+						<BitOffs>3840</BitOffs>
+					</Symbol>
+					<Symbol>
+						<Name>OutputForces</Name>
+						<BitSize>384</BitSize>
+						<BaseType GUID="{A15D98EE-1634-4232-BE69-1205EC3DDAAD}">Force6D</BaseType>
+						<Unit><![CDATA[N, Nm]]></Unit>
+						<BitOffs>3904</BitOffs>
+					</Symbol>
+					<Symbol>
+						<Name>ForceLimits</Name>
+						<BitSize>384</BitSize>
+						<BaseType GUID="{A15D98EE-1634-4232-BE69-1205EC3DDAAD}">Force6D</BaseType>
+						<Unit><![CDATA[N, Nm]]></Unit>
+						<BitOffs>4288</BitOffs>
+					</Symbol>
+					<Symbol>
+						<Name>LimitedOutputForces</Name>
+						<BitSize>384</BitSize>
+						<BaseType GUID="{A15D98EE-1634-4232-BE69-1205EC3DDAAD}">Force6D</BaseType>
+						<Unit><![CDATA[N, Nm]]></Unit>
+						<BitOffs>4672</BitOffs>
+					</Symbol>
+					<Symbol>
+						<Name>EstimatedMoverPower</Name>
+						<BitSize>64</BitSize>
+						<BaseType GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</BaseType>
+						<Unit><![CDATA[W]]></Unit>
+						<BitOffs>5056</BitOffs>
+					</Symbol>
+					<Symbol>
+						<Name>TilePowerLimitation</Name>
+						<BitSize>64</BitSize>
+						<BaseType GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</BaseType>
+						<BitOffs>5120</BitOffs>
+					</Symbol>
+					<Symbol>
+						<Name>PositionOnCurrentPart</Name>
+						<BitSize>128</BitSize>
+						<BaseType GUID="{E9D95441-913B-4D5D-83F5-1549C8A588DE}">Position2D_LREAL</BaseType>
+						<Unit><![CDATA[mm]]></Unit>
+						<BitOffs>5184</BitOffs>
+					</Symbol>
+					<Symbol>
+						<Name>PartOID</Name>
+						<BitSize>32</BitSize>
+						<BaseType GUID="{18071995-0000-0000-0000-00000000000F}">OTCID</BaseType>
+						<BitOffs>5312</BitOffs>
+					</Symbol>
+					<Symbol>
+						<Name>MovementAreaOID</Name>
+						<BitSize>32</BitSize>
+						<BaseType GUID="{18071995-0000-0000-0000-00000000000F}">OTCID</BaseType>
+						<BitOffs>5344</BitOffs>
+					</Symbol>
+					<Symbol>
+						<Name>CouplingOID</Name>
+						<BitSize>32</BitSize>
+						<BaseType GUID="{18071995-0000-0000-0000-00000000000F}">OTCID</BaseType>
+						<BitOffs>5376</BitOffs>
+					</Symbol>
+				</DataArea>
+				<DataArea>
+					<AreaNo AreaType="InputDst" CreateSymbols="true">3</AreaNo>
+					<Name>InputsFromNC3</Name>
+					<ContextId>1</ContextId>
+					<ByteSize X64="#x8">4</ByteSize>
+					<Symbol>
+						<Name>NC3ToHW</Name>
+						<BitSize X64="64">32</BitSize>
+						<BaseType GUID="{F6B8E2E8-5F96-45E0-AD21-3E97B7E9BDB2}" Namespace="MC" PointerTo="1">CDT_MCTOHW_MOVER</BaseType>
+						<Properties>
+							<Property>
+								<Name>TcPointerMapping</Name>
+							</Property>
+						</Properties>
+						<BitOffs>0</BitOffs>
+					</Symbol>
+					<Properties>
+						<Property>
+							<Name>TcMappingDataArea</Name>
+							<Value>MC2IO</Value>
+						</Property>
+					</Properties>
+				</DataArea>
+				<DataArea>
+					<AreaNo AreaType="OutputSrc" CreateSymbols="true">4</AreaNo>
+					<Name>OutputsToNC3</Name>
+					<ContextId>1</ContextId>
+					<ByteSize X64="#x8">4</ByteSize>
+					<Symbol>
+						<Name>HWToNC3</Name>
+						<BitSize X64="64">32</BitSize>
+						<BaseType GUID="{DCBC2796-F4A6-49ED-AD13-8E71F04F5FD7}" Namespace="MC" PointerTo="1">CDT_HWTOMC_MOVER</BaseType>
+						<Properties>
+							<Property>
+								<Name>TcPointerMapping</Name>
+							</Property>
+						</Properties>
+						<BitOffs>0</BitOffs>
+					</Symbol>
+					<Properties>
+						<Property>
+							<Name>TcMappingDataArea</Name>
+							<Value>IO2MC</Value>
+						</Property>
+					</Properties>
+				</DataArea>
+			</DataAreas>
+			<ParentOTCID>#x01010010</ParentOTCID>
+			<ParameterValues>
+				<Value>
+					<Name>TaskOID</Name>
+					<Value>33620112</Value>
+				</Value>
+				<Value>
+					<Name>MoverType</Name>
+					<EnumText>APM4330</EnumText>
+				</Value>
+				<Value>
+					<Name>BTN</Name>
+					<String>0000m003</String>
+				</Value>
+				<Value>
+					<Name>SimulationModeStartPosition.X</Name>
+					<Value>610.54345703125</Value>
+				</Value>
+				<Value>
+					<Name>SimulationModeStartPosition.Y</Name>
+					<Value>446.395385742188</Value>
+				</Value>
+				<Value>
+					<Name>SimulationModeStartPosition.MovementArea</Name>
+					<Value>16842992</Value>
+				</Value>
+				<Value>
+					<Name>ForceLimitMax.x</Name>
+					<Value>0</Value>
+				</Value>
+				<Value>
+					<Name>ForceLimitMax.y</Name>
+					<Value>0</Value>
+				</Value>
+				<Value>
+					<Name>ForceLimitMax.z</Name>
+					<Value>0</Value>
+				</Value>
+				<Value>
+					<Name>ForceLimitMax.a</Name>
+					<Value>0</Value>
+				</Value>
+				<Value>
+					<Name>ForceLimitMax.b</Name>
+					<Value>0</Value>
+				</Value>
+				<Value>
+					<Name>ForceLimitMax.c</Name>
+					<Value>0</Value>
+				</Value>
+				<Value>
+					<Name>ForceLimitMin.x</Name>
+					<Value>0</Value>
+				</Value>
+				<Value>
+					<Name>ForceLimitMin.y</Name>
+					<Value>0</Value>
+				</Value>
+				<Value>
+					<Name>ForceLimitMin.z</Name>
+					<Value>0</Value>
+				</Value>
+				<Value>
+					<Name>ForceLimitMin.a</Name>
+					<Value>0</Value>
+				</Value>
+				<Value>
+					<Name>ForceLimitMin.b</Name>
+					<Value>0</Value>
+				</Value>
+				<Value>
+					<Name>ForceLimitMin.c</Name>
+					<Value>0</Value>
+				</Value>
+				<Value>
+					<Name>ControllersOn.x</Name>
+					<EnumText>TRUE</EnumText>
+				</Value>
+				<Value>
+					<Name>ControllersOn.y</Name>
+					<EnumText>TRUE</EnumText>
+				</Value>
+				<Value>
+					<Name>ControllersOn.z</Name>
+					<EnumText>TRUE</EnumText>
+				</Value>
+				<Value>
+					<Name>ControllersOn.a</Name>
+					<EnumText>TRUE</EnumText>
+				</Value>
+				<Value>
+					<Name>ControllersOn.b</Name>
+					<EnumText>TRUE</EnumText>
+				</Value>
+				<Value>
+					<Name>ControllersOn.c</Name>
+					<EnumText>TRUE</EnumText>
+				</Value>
+				<Value>
+					<Name>PayloadInertia.Mass</Name>
+					<Value>0</Value>
+				</Value>
+				<Value>
+					<Name>PayloadInertia.AAxisInertia</Name>
+					<Value>0</Value>
+				</Value>
+				<Value>
+					<Name>PayloadInertia.BAxisInertia</Name>
+					<Value>0</Value>
+				</Value>
+				<Value>
+					<Name>PayloadInertia.CAxisInertia</Name>
+					<Value>0</Value>
+				</Value>
+				<Value>
+					<Name>PayloadInertia.CentreOfMassX</Name>
+					<Value>0</Value>
+				</Value>
+				<Value>
+					<Name>PayloadInertia.CentreOfMassY</Name>
+					<Value>0</Value>
+				</Value>
+				<Value>
+					<Name>PayloadInertia.CentreOfMassZ</Name>
+					<Value>0</Value>
+				</Value>
+				<Value>
+					<Name>ParametrizationSetId</Name>
+					<Value>0</Value>
+				</Value>
+				<Value>
+					<Name>EnterOrLeaveMovementArea.Positions.x</Name>
+					<Value>0</Value>
+				</Value>
+				<Value>
+					<Name>EnterOrLeaveMovementArea.Positions.y</Name>
+					<Value>0</Value>
+				</Value>
+				<Value>
+					<Name>EnterOrLeaveMovementArea.MovementAreaOID</Name>
+					<Value>0</Value>
+				</Value>
+				<Value>
+					<Name>EnterOrLeaveMovementArea.Result</Name>
+					<Value>0</Value>
+				</Value>
+				<Value>
+					<Name>ActualPositions.ActualPosition.x</Name>
+					<Value>0</Value>
+				</Value>
+				<Value>
+					<Name>ActualPositions.ActualPosition.y</Name>
+					<Value>0</Value>
+				</Value>
+				<Value>
+					<Name>ActualPositions.ActualPosition.z</Name>
+					<Value>0</Value>
+				</Value>
+				<Value>
+					<Name>ActualPositions.ActualPosition.a</Name>
+					<Value>0</Value>
+				</Value>
+				<Value>
+					<Name>ActualPositions.ActualPosition.b</Name>
+					<Value>0</Value>
+				</Value>
+				<Value>
+					<Name>ActualPositions.ActualPosition.c</Name>
+					<Value>0</Value>
+				</Value>
+				<Value>
+					<Name>ActualPositions.PartOID</Name>
+					<Value>0</Value>
+				</Value>
+				<Value>
+					<Name>ActualPositions.MovementAreaOID</Name>
+					<Value>0</Value>
+				</Value>
+				<Value>
+					<Name>NcMoverOID</Name>
+					<Value>0</Value>
+				</Value>
+			</ParameterValues>
+		</TmcDesc>
+	</Module>
+</TcSmItem>

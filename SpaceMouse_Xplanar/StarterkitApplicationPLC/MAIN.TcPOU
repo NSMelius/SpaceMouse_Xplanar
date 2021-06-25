@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="MAIN" Id="{3f1cd4c3-f97f-4a2d-98b5-d1ecbf176722}" SpecialFunc="None">
+    <Declaration><![CDATA[{attribute 'TcCallAfterOutputUpdate'}
+PROGRAM MAIN
+
+VAR
+// MAIN
+	fbXMotionUnit					: FB_MachineModule;
+	fbOperationalControl			: FB_OperationalControl;
+	fbVisStarterKitStateMachine		: FB_VisStarterKitStateMachine;	
+	
+	bExternalMachineStop : BOOL;
+	
+	bHelp01		: BOOL;
+	bHelp02		: BOOL;	
+	bHelp03		: BOOL;
+	bHelp04		: BOOL;	
+	sHelp01		: STRING;
+	nHelp01		: INT;
+	
+	
+	
+	dcTimeStamp AT%Q*		: ULINT;
+	
+
+	// Track Plotter
+	nTestCnt				: UINT;
+	bTrackPlot				: BOOL;
+	nForCounter				: INT;
+	position				: PositionXYC;
+	fTrackPointDistance1 	: LREAL;
+	fTrackPointDistance2	: LREAL;
+	fTrackPointDistance3	: LREAL;
+	fTrackPointDistance4	: LREAL;
+	
+	arTrackPoints1 		: ARRAY [1..1000,1..2] OF LREAL;
+	arTrackPoints2 		: ARRAY [1..1000,1..2] OF LREAL;
+	arTrackPoints3 		: ARRAY [1..1000,1..2] OF LREAL;
+	arTrackPoints4 		: ARRAY [1..1000,1..2] OF LREAL;
+
+	stEL9222_1_Status	AT %I*	: DWORD;
+	stEL9222_2_Status	AT %I*	: DWORD;
+	
+END_VAR
+	
+	
+	
+	
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[Cycle();
+
+]]></ST>
+    </Implementation>
+    <Method Name="Cycle" Id="{efe730c8-a1bb-4623-a97f-9e00b4cc8860}">
+      <Declaration><![CDATA[METHOD Cycle : BOOL
+VAR_INPUT
+END_VAR
+
+
+
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[fbXMotionUnit.Cycle(); 									// Keep it alive!            
+
+fbXMotionUnit.XCommand := XTags.Command;	    		// Writing command from superior unit e.g. HMI
+XTags.Status := fbXMotionUnit.XMotionStatus;			// Getting current status of XMotionUnit for e.g. HMI display	
+XTags.States := fbXMotionUnit.XSequenceStates; 			// Writing current states information into XTags
+fbXMotionUnit.bExternelStop := bExternalMachineStop;	// External exception e.g. signal from E-Stop
+
+
+fbXMotionUnit.P_bErrorQuit := fbVisStarterKitStateMachine.bOCQuitButtonState;
+fbOperationalControl.P_nProcessFeedback := fbXMotionUnit.P_nProcessFeedback;
+
+
+fbOperationalControl(	   bStartCommand := fbVisStarterKitStateMachine.bOCStartButtonState, 
+					        bStopCommand := fbVisStarterKitStateMachine.bOCStopButtonState, 
+						    bQuitCommand := fbVisStarterKitStateMachine.bOCQuitButtonState,
+					   bExceptionCommand := fbVisStarterKitStateMachine.bOCEStopButtonState,
+							  bStartLamp => bHelp01,
+							   bStopLamp => bHelp02,
+                               bQuitLamp => bHelp03,
+                              bEStopLamp => bHelp04,
+							    bStopped => ,
+							   bStarting => , 
+							    bRunning => , 
+							     sResult => sHelp01,
+							     nResult => nHelp01,
+							       XTags := XTags );
+	
+
+							fbVisStarterKitStateMachine.bOCStartLampState 		:= bHelp01;
+							fbVisStarterKitStateMachine.bOCStopLampState  		:= bHelp02;
+							fbVisStarterKitStateMachine.bOCQuitLampState  		:= bHelp03;
+							fbVisStarterKitStateMachine.bOCEStopLampState  	 	:= bHelp04;
+							fbVisStarterKitStateMachine.sOCResultTextDisplay 	:= sHelp01;
+							fbVisStarterKitStateMachine.nOCResult 				:= nHelp01;							  
+									  
+	fbVisStarterKitStateMachine( iq_stVisControl := stVisControl,
+                         				iq_XTags := XTags );
+
+
+
+
+
+
+	
+	
+	
+	
+	
+
+
+]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

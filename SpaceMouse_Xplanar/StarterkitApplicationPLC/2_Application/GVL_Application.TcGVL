@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <GVL Name="GVL_Application" Id="{e7d02df0-4094-4317-8c0b-34f350ba6526}">
+    <Declaration><![CDATA[VAR_GLOBAL CONSTANT
+	
+	MaxMovers			: UDINT := 4;		// Number of movers to control
+	trackCount			: UDINT := 3;		// Number of tracks controlled by the application
+	nStationCount		: UINT  := 5;		// Number of stations controlled by the application
+	maxNumTrackPoints	: INT   := 20;		// max number of track points for each track 
+END_VAR
+
+VAR_GLOBAL
+	moverCount					: UDINT := 4;
+	ipTrack						: ARRAY [1..trackCount] OF I_Track;
+	ipStation					: ARRAY [1..nStationCount] OF I_Station;
+	ipMoverApplication			: ARRAY [1..MaxMovers] OF I_MoverApplication;
+	ipMotionSystemApplication	: I_MotionSystemApplication;
+	ipXpu						: I_TcIoXPlanarProcessingUnit;
+END_VAR]]></Declaration>
+  </GVL>
+</TcPlcObject>

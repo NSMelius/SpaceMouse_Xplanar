@@ -1,0 +1,1276 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="FB_MotionSystem" Id="{3a09f139-d748-48b3-b234-b09b4048ace4}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_MotionSystem IMPLEMENTS I_MotionSystemApplication
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	
+	ipMotionSystem			: I_MotionSystem;
+	stMoverDetectionInfos   : ST_TcIoMoverDetectionInfos;
+
+	bMoverError	: BOOL;	
+	
+	// Dynamic limitations
+	fVelo           		: LREAL := 250.0;
+	fAccel    				: LREAL := 3000.0;
+	fJerk            		: LREAL := 30000.0;
+
+	// Sequences
+	nStartupSequence 		: UDINT;
+	nAbortingSequence 		: UDINT;
+	nStartingSequence 		: UDINT;
+	nResettingSequence 		: UDINT;
+	nExecutingSequence 		: UDINT;	
+	
+	// Helper
+	bDone 					: BOOL;
+	nForCounter 			: UDINT;	
+
+	// Temp
+	tonDelay		: TON;
+	
+	
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Folder Name="StateMachine" Id="{253ddc0c-81f5-48d6-a572-8a50bf996733}" />
+    <Method Name="Aborting" Id="{e9f14995-6477-434f-b47d-928c6826b558}" FolderPath="StateMachine\">
+      <Declaration><![CDATA[METHOD Aborting : BOOL
+VAR
+
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[CASE nAbortingSequence OF 
+
+	0: //Idle	
+		nAbortingSequence := 10; 	
+
+	10: // Sending "Halt" to all movers for immediate stop 
+		IF ipMotionSystem.HaltSystem() THEN
+			nAbortingSequence := nAbortingSequence +1;
+		ELSE 
+			nAbortingSequence := nAbortingSequence +5;	
+		END_IF
+		
+	11: IF ipMotionSystem.P_HaltSystem.Done THEN
+			nAbortingSequence := 20;
+		ELSIF ipMotionSystem.P_HaltSystem.Error THEN
+			;
+		END_IF	
+	
+		
+	20:// All movers leave their track
+		IF ipMotionSystem.LeaveTrack() THEN
+			nAbortingSequence := 21;
+		ELSE
+			nAbortingSequence := nAbortingSequence +5;
+		END_IF
+	
+	21: IF ipMotionSystem.P_LeaveTrack.Done THEN
+			nAbortingSequence := 30;
+		ELSIF ipMotionSystem.P_LeaveTrack.Error THEN
+			;
+		END_IF
+		
+		
+	30: // Removing all movers from the group
+		IF ipMotionSystem.RemoveMoversFromGroup() THEN
+			nAbortingSequence := 31;
+		END_IF
+
+	31: IF ipMotionSystem.P_RemoveMoversFromGroup.Done THEN
+			nAbortingSequence := 40;
+		END_IF		
+
+
+	40: // Disable all movers	
+		IF ipMotionSystem.DisableMovers() THEN
+			nAbortingSequence := 41;
+		ELSE
+			nAbortingSequence := nAbortingSequence +5;
+		END_IF
+
+	41: IF ipMotionSystem.P_DisableMovers.Done THEN
+			nAbortingSequence := 50;
+		END_IF
+
+		
+	50: // Disable group
+		IF ipMotionSystem.DisableGroup() THEN
+			nAbortingSequence := 51;
+		END_IF
+
+	51: IF ipMotionSystem.P_DisableGroup.Done THEN
+			nAbortingSequence := 60;
+		END_IF		
+		
+	60: // Remove Environment from Group
+		IF ipMotionSystem.RemoveEnvironmentFromGroup() THEN
+			nAbortingSequence := 61;
+		END_IF	
+		
+	61: IF ipMotionSystem.P_RemoveEnviromentFromGroup.Done THEN
+			nAbortingSequence := 70;
+		END_IF		
+
+	70: // Diable all tracks	
+		FOR nForCounter := 1 TO trackCount DO
+			ipTrack[nForCounter].std.Disable();
+		END_FOR
+		nAbortingSequence := 80;
+	
+	80:	nAbortingSequence := 100;
+		ipMotionSystemApplication.P_bMoverError := FALSE; //  Only for testing
+
+	100: // Reset of all sequences / Aborting done
+		nAbortingSequence  := 0;
+		nResettingSequence := 0;
+		nStartingSequence  := 0;
+		nExecutingSequence := 0;
+		          Aborting := TRUE;
+ 
+END_CASE
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Cycle" Id="{341dc8a8-5e48-4efe-9beb-8fe119ca09c3}">
+      <Declaration><![CDATA[METHOD Cycle : BOOL
+VAR_INPUT
+END_VAR
+
+
+
+VAR_INST
+	nMoverIndex	: UDINT;
+
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[bMoverError := FALSE;
+
+// Scanning for mover error e.g. Following Error
+FOR nMoverIndex:=1 TO moverCount DO	
+	IF ipMoverApplication[nMoverIndex] <> 0 THEN
+		IF ipMoverApplication[nMoverIndex].std.P_State = MC_PLANAR_STATE.Error THEN
+			bMoverError := TRUE;	
+		END_IF
+	END_IF
+END_FOR
+
+	
+	
+	
+	
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Execute" Id="{359c4e9c-c9b8-40d2-80a1-9ab764cdd31d}" FolderPath="StateMachine\">
+      <Declaration><![CDATA[METHOD Execute : UDINT
+
+
+
+
+VAR_INST
+	
+
+
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[;
+
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="MoverRecovery" Id="{85613985-3104-4cbd-a280-3e86a960dacb}">
+      <Declaration><![CDATA[METHOD INTERNAL MoverRecovery : BOOL
+VAR_INPUT
+	bReset	: BOOL;
+END_VAR
+
+
+
+VAR_INST
+
+	// Dynamic limitations
+	fVeloRec           				: LREAL := 250.0;
+	fAccelRec    					: LREAL := 3000.0;
+	fJerkRec            			: LREAL := 30000.0;
+
+	idx								: UDINT;	
+	nTestCounter					: UDINT;
+	nStateMoverRecovery				: INT;	
+	bAllMoversDone					: BOOL;
+	nForCounter						: UDINT;
+	bStillBusy						: BOOL;
+	nInitPositionToMoveTo			: UDINT;
+	bAllMoversAtInitPosition		: BOOL;
+	nInitPositionIndex	  			: UDINT;
+	nMoverIndex			  			: UDINT;
+	nMoversToInitPositionFound		: UDINT;
+	nMoverToJoinTrack				: UDINT;
+	nMoverToInitPosition			: UDINT;
+	bTryMoveX						: BOOL;
+	bTryMoveY						: BOOL;
+	nCounterMoverToMove				: INT;	
+	
+	fInitialMoverPosition			: ARRAY [1..MaxMovers,1..2] OF LREAL;
+	bMoverSortedAlready				: ARRAY [1..MaxMovers] OF BOOL;
+	bMoverSkipInitPosition			: ARRAY [1..MaxMovers] OF BOOL;
+	bMoverToInitPosition			: ARRAY [1..MaxMovers] OF BOOL;
+	bMoverAtInitPosition			: ARRAY [1..MaxMovers] OF BOOL;
+	bMoverBlockedByMove				: ARRAY [1..MaxMovers] OF BOOL;
+	bInitPositionBlockedByMove		: ARRAY [1..MaxMovers] OF BOOL;	
+	bInitialMoverPositionDone		: ARRAY [1..MaxMovers] OF BOOL;
+	nMoverOnTheWayToInitPosition	: ARRAY [1..MaxMovers] OF UDINT;
+	fMoverDistanceToInitialPosition	: ARRAY [1..MaxMovers] OF LREAL;
+	fShortestDistance				: ARRAY [1..MaxMovers] OF LREAL;
+	nClosestMoverToInitPosition		: ARRAY [1..MaxMovers] OF UDINT;
+	nInitPositionMoverTable			: ARRAY [1..MaxMovers] OF UDINT;
+	nMoverRecoveryPosition			: ARRAY [1..MaxMovers] OF UDINT;
+	nJoinTrack						: ARRAY [1..MaxMovers] OF UDINT;	
+
+	targetPos            	 		: PositionXYC;
+    currentPos			     		: PositionXYC;
+	nCmdReturnError					: UDINT;
+	
+	
+//-----------------first Track run
+
+	fTrackLengthTrack1  	: LREAL;
+	fTrackLengthTrack2  	: LREAL;	
+	fTrackLengthTrack3  	: LREAL;	
+	
+	bInitRunFlag			: BOOL;
+	bInitRunDone			: BOOL;
+	bOneMoverMoving			: BOOL;
+	bAllMoversStandingStill	: BOOL;
+	bMoversQueuing			: BOOL;
+	
+	TimerWaitForMovement	: TON;	
+	
+	
+	nState 					: INT;	
+	nStateInit				: INT;
+	
+	
+	fbInitList				: FB_List;
+
+	fPositionOnTrack			: LREAL;
+	nStationIndex				: UINT;
+	nNextStationTrackIndex 		: UINT;
+	fNextStationWaitingPosition	: LREAL;
+	nTrackIndex					: UDINT;
+	nNextStationIndex			: UDINT;
+	bFirstMoverIn				: BOOL;
+	ClearTrig					: R_TRIG;
+	fMoverPosition				: LREAL;
+	fMoverVelocity				: LREAL;
+	fMoverAcceleration			: LREAL;
+	fMoverJerk					: LREAL;
+	strInfo						: STRING;
+	
+	fMoverSpace					: LREAL;
+	fWaitingPositionStation01	: LREAL;
+	fWaitingPositionStation02	: LREAL;	
+	fWaitingPositionStation03	: LREAL;	
+	fWaitingPositionStation04	: LREAL;	
+	fWaitingPositionStation05b	: LREAL;	
+	fWaitingPositionStation05c	: LREAL;
+	
+	stMoveParameters 	: ST_MoveOnTrackOptions; 
+	strInfoHistory		: ARRAY[0..10] OF STRING;
+	
+	nResult				: DINT;
+	sMessage			: STRING;
+	
+	
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF bReset THEN
+	nStateMoverRecovery := 0;
+END_IF
+
+
+
+CASE nStateMoverRecovery OF
+
+	
+	(***************************************************************************************)
+	(* Mover Recovery Part1: Separating all movers and move each of them to a corner point *)
+	(*                       specified by fInitialMoverPosition                            *)
+	(***************************************************************************************)                                  
+
+	0:		// Starting mover recovery
+				  MoverRecovery := FALSE;
+			nStateMoverRecovery := 10;
+	
+			
+	10:		// Setting initial-points for mover sorting				
+			fInitialMoverPosition[1,1] := 120.0;
+			fInitialMoverPosition[1,2] := 120.0;	
+			
+			fInitialMoverPosition[2,1] := 120.0;
+			fInitialMoverPosition[2,2] := 600.0;		
+			
+			fInitialMoverPosition[3,1] := 840.0;
+			fInitialMoverPosition[3,2] := 600.0;		
+		
+			fInitialMoverPosition[4,1] := 840.0;
+			fInitialMoverPosition[4,2] := 120.0;
+	
+			fbInitList.ClearList();
+			
+			nStateMoverRecovery := 100;
+			
+		
+	100: // -> All movers to their initial position
+				
+			// Resetting all flags 
+			FOR idx:=1 TO moverCount DO
+						bMoverToInitPosition[idx] := FALSE;
+					  bMoverSkipInitPosition[idx] := FALSE;
+						 bMoverSortedAlready[idx] := FALSE;
+						bMoverAtInitPosition[idx] := FALSE;
+				  bInitPositionBlockedByMove[idx] := FALSE;
+					 nInitPositionMoverTable[idx] := 0;
+				nMoverOnTheWayToInitPosition[idx] := 0;
+			END_FOR		
+			nStateMoverRecovery:= 110;
+			
+			
+	110:  // -> Figuring out which mover needs to go to which init-position
+			
+			// Cleaning working registers
+				 nInitPositionToMoveTo := 0;	
+			nMoversToInitPositionFound := 0;
+			FOR idx:=1 TO moverCount DO
+				nClosestMoverToInitPosition[idx] := 0;
+						bMoverSortedAlready[idx] := FALSE;
+						  fShortestDistance[idx] := 1.7976931348623158E+308;		 
+			END_FOR
+			
+			// Release mover blocking after movement
+			FOR idx:=1 TO moverCount DO
+				IF NOT ipMoverApplication[idx].std.P_MoveToPosition.Busy THEN
+						   bMoverBlockedByMove[idx] := FALSE;
+				END_IF
+			END_FOR
+				
+			// Finding closest mover to each init-position
+			FOR nInitPositionIndex:=1 TO moverCount DO
+				IF bInitPositionBlockedByMove[nInitPositionIndex] = FALSE THEN
+					FOR nMoverIndex:=1 TO moverCount DO  
+						IF  NOT     bMoverToInitPosition[nMoverIndex]
+						AND NOT     bMoverAtInitPosition[nMoverIndex]
+						AND NOT      bMoverSortedAlready[nMoverIndex]
+						AND NOT      bMoverBlockedByMove[nMoverIndex]
+						AND NOT   bMoverSkipInitPosition[nMoverIndex]
+						AND nMoverOnTheWayToInitPosition[nMoverIndex]=0				
+						THEN
+							currentPos.SetValuesXYC(ipMoverApplication[nMoverIndex].std.P_SetPosition.x, ipMoverApplication[nMoverIndex].std.P_SetPosition.y, ipMoverApplication[nMoverIndex].std.P_SetPosition.c);
+							fMoverDistanceToInitialPosition[nMoverIndex] := SQRT((currentPos.x - fInitialMoverPosition[nInitPositionIndex,1]) * (currentPos.x - fInitialMoverPosition[nInitPositionIndex,1]) + (currentPos.y - fInitialMoverPosition[nInitPositionIndex,2]) * (currentPos.y - fInitialMoverPosition[nInitPositionIndex,2])); 
+					
+							IF fMoverDistanceToInitialPosition[nMoverIndex] < fShortestDistance[nInitPositionIndex] THEN
+										  fShortestDistance[nInitPositionIndex] := fMoverDistanceToInitialPosition[nMoverIndex];
+								nClosestMoverToInitPosition[nInitPositionIndex] := nMoverIndex;	
+													 nMoversToInitPositionFound := nMoversToInitPositionFound + 1;
+							END_IF
+						END_IF
+					END_FOR
+					IF nClosestMoverToInitPosition[nInitPositionIndex] > 0 THEN
+						bMoverSortedAlready[nClosestMoverToInitPosition[nInitPositionIndex]] := TRUE;
+					END_IF
+				END_IF	
+			END_FOR
+					
+			// Building the table which defines which mover must go to which init-position
+			nCounterMoverToMove := 0;
+			FOR nInitPositionIndex:=1 TO moverCount DO 
+				nInitPositionMoverTable[nInitPositionIndex] := nClosestMoverToInitPosition[nInitPositionIndex];
+				IF nInitPositionMoverTable[nInitPositionIndex] <> 0 THEN
+					nCounterMoverToMove := nCounterMoverToMove +1;
+				END_IF
+			END_FOR
+			
+			IF nCounterMoverToMove > 0 THEN
+				nStateMoverRecovery:= 120;
+			ELSE
+				// Skipping release
+				FOR idx:=1 TO moverCount DO
+					bMoverSkipInitPosition[idx] := FALSE;
+				END_FOR	
+			END_IF
+				
+		
+	120:  // Sending all movers to their init-positions
+			nInitPositionToMoveTo := nInitPositionToMoveTo + 1;
+			
+			IF nInitPositionToMoveTo <= moverCount THEN
+				IF nInitPositionMoverTable[nInitPositionToMoveTo] > 0 THEN
+					nMoverToInitPosition := nInitPositionMoverTable[nInitPositionToMoveTo]; 
+					nMoverRecoveryPosition[nMoverToInitPosition] := nInitPositionToMoveTo;
+					nStateMoverRecovery := 130;
+				END_IF
+			ELSE
+				nStateMoverRecovery := 121; 
+			END_IF
+				
+			
+	121:  // Waiting for all movers standing still
+			bStillBusy := FALSE;
+			FOR idx:=1 TO moverCount DO
+				IF ipMoverApplication[idx].std.P_MoveToPosition.Busy THEN
+					bStillBusy := TRUE;
+				ELSE
+					IF bMoverToInitPosition[idx] THEN 
+								bMoverToInitPosition[idx] := FALSE;
+								bMoverAtInitPosition[idx] := TRUE;					
+						nMoverOnTheWayToInitPosition[idx] := 0;
+					END_IF				
+				END_IF
+			END_FOR
+		
+			IF NOT bStillBusy THEN
+				nStateMoverRecovery := 122; 
+			END_IF
+				
+			
+	122:  // Checking if all movers at their init-position 
+			bAllMoversAtInitPosition := TRUE;
+			FOR idx:=1 TO moverCount DO	
+				IF NOT bMoverAtInitPosition[idx] THEN
+					bAllMoversAtInitPosition := FALSE;
+				END_IF
+			END_FOR
+			
+			IF bAllMoversAtInitPosition THEN
+				nStateMoverRecovery := 150;   // All movers are now at their init-position.
+			ELSE
+				nStateMoverRecovery := 110;	// Try another round to move previously blocked movers.
+			END_IF		
+			
+		
+	130: 	// Move a mover to its init-position
+			IF NOT ipMoverApplication[nMoverToInitPosition].std.P_MoveToPosition.Busy THEN	
+				targetPos.SetValuesXYC(fInitialMoverPosition[nInitPositionToMoveTo,1],fInitialMoverPosition[nInitPositionToMoveTo,2],0);
+				IF ipMoverApplication[nMoverToInitPosition].std.MoveToPosition('',targetPos,fVeloRec,fAccelRec,fAccelRec,fJerkRec) THEN
+					nStateMoverRecovery:= 131;
+				END_IF
+			END_IF
+						
+		
+	131:	// ...decide accoding to command return
+			nCmdReturnError := ipMoverApplication[nMoverToInitPosition].std.P_MoveToPosition.ErrorID;
+	
+			IF ipMoverApplication[nMoverToInitPosition].std.P_MoveToPosition.Active  	
+			OR ipMoverApplication[nMoverToInitPosition].std.P_MoveToPosition.Error 
+			OR ipMoverApplication[nMoverToInitPosition].std.P_MoveToPosition.Done
+			THEN		
+				IF nCmdReturnError = 0 THEN 
+							 bMoverBlockedByMove[nMoverToInitPosition] := TRUE;
+					 bInitPositionBlockedByMove[nInitPositionToMoveTo] := TRUE;
+							bMoverToInitPosition[nMoverToInitPosition] := TRUE;
+					nMoverOnTheWayToInitPosition[nMoverToInitPosition] := nInitPositionToMoveTo;
+						 
+					FOR idx:=1 TO moverCount DO	
+						bMoverSkipInitPosition[idx] := FALSE;
+					END_FOR						
+					nStateMoverRecovery := 140;	
+			
+				ELSIF nCmdReturnError = 33158 THEN   // 33158 = Collision
+					
+					IF NOT bTryMoveX THEN
+						nStateMoverRecovery:= 132;
+					ELSIF NOT bTryMoveY THEN
+						nStateMoverRecovery:= 134;
+					ELSE	
+						nMoverOnTheWayToInitPosition[nMoverToInitPosition] := 0;
+						nStateMoverRecovery:= 140;
+					END_IF
+				END_IF			
+			END_IF
+	
+		
+	132: 	// try x-direction
+			IF NOT ipMoverApplication[nMoverToInitPosition].std.P_MoveToPosition.Busy THEN		
+				bTryMoveX := TRUE;
+				currentPos.SetValuesXYC(ipMoverApplication[nMoverToInitPosition].std.P_SetPosition.x, ipMoverApplication[nMoverToInitPosition].std.P_SetPosition.y, ipMoverApplication[nMoverToInitPosition].std.P_SetPosition.c);
+				targetPos.SetValuesXYC(fInitialMoverPosition[nInitPositionToMoveTo,1],currentPos.y,0);
+				ipMoverApplication[nMoverToInitPosition].std.MoveToPosition('',targetPos,fVeloRec,fAccelRec,fAccelRec,fJerkRec);
+				
+				nStateMoverRecovery:= 133;
+			END_IF
+			
+	133:	// ...decide accoding to command return
+			nCmdReturnError := ipMoverApplication[nMoverToInitPosition].std.P_MoveToPosition.ErrorID;
+	
+			IF ipMoverApplication[nMoverToInitPosition].std.P_MoveToPosition.Active
+			OR ipMoverApplication[nMoverToInitPosition].std.P_MoveToPosition.Error
+			OR ipMoverApplication[nMoverToInitPosition].std.P_MoveToPosition.Done
+			THEN	
+			
+				IF nCmdReturnError = 0 THEN
+							 bMoverBlockedByMove[nMoverToInitPosition] := TRUE;
+					nMoverOnTheWayToInitPosition[nMoverToInitPosition] := nInitPositionToMoveTo;
+					
+					nStateMoverRecovery:= 130;
+					
+				ELSIF nCmdReturnError = 33158 THEN   // 33158 = Collision	
+					bMoverSkipInitPosition[nMoverToInitPosition] := TRUE;
+					
+					nStateMoverRecovery:= 130;
+				END_IF	
+			END_IF
+				
+	134: 	// try y-direction
+			IF NOT ipMoverApplication[nMoverToInitPosition].std.P_MoveToPosition.Busy THEN
+				bTryMoveY := TRUE;
+				currentPos.SetValuesXYC(ipMoverApplication[nMoverToInitPosition].std.P_SetPosition.x, ipMoverApplication[nMoverToInitPosition].std.P_SetPosition.y, ipMoverApplication[nMoverToInitPosition].std.P_SetPosition.c);
+				targetPos.SetValuesXYC(currentPos.x ,fInitialMoverPosition[nInitPositionToMoveTo,2],0);
+				ipMoverApplication[nMoverToInitPosition].std.MoveToPosition('',targetPos,fVeloRec,fAccelRec, fAccelRec,fJerkRec);
+	
+				nStateMoverRecovery:= 135;
+			END_IF
+			
+	135:	// ...decide accoding to command return
+			nCmdReturnError := ipMoverApplication[nMoverToInitPosition].std.P_MoveToPosition.ErrorID;
+			
+			IF ipMoverApplication[nMoverToInitPosition].std.P_MoveToPosition.Active
+			OR ipMoverApplication[nMoverToInitPosition].std.P_MoveToPosition.Error
+			OR ipMoverApplication[nMoverToInitPosition].std.P_MoveToPosition.Done
+			THEN					
+				IF nCmdReturnError = 0 THEN
+							 bMoverBlockedByMove[nMoverToInitPosition] := TRUE;
+					nMoverOnTheWayToInitPosition[nMoverToInitPosition] := nInitPositionToMoveTo;
+					
+					nStateMoverRecovery:= 130;
+					
+				ELSIF nCmdReturnError = 33158 THEN   // 33158 = Collision			
+					bMoverSkipInitPosition[nMoverToInitPosition] := TRUE;
+					
+					nStateMoverRecovery:= 130;
+				END_IF
+			END_IF
+			
+	140:
+		// Clean flags for next mover to be moved				
+		bTryMoveX := FALSE;
+		bTryMoveY := FALSE;	
+		nStateMoverRecovery:= 120;
+		
+		
+	150:
+
+		bDone := TRUE;
+		FOR nForCounter := 1 TO moverCount DO
+			bDone := bDone AND ipMoverApplication[nForCounter].std.P_MoveToPosition.Done;
+		END_FOR
+		
+		IF bDone THEN 
+			nStateMoverRecovery := 139;
+		END_IF
+		
+		// Clean flags for next mover to be moved				
+			bTryMoveX := FALSE;
+			bTryMoveY := FALSE;	
+			nStateMoverRecovery:= 200;
+			
+
+	
+			
+	(***************************************************************************************)
+	(* Mover Recovery Part2: All movers join the outer-track							   *)
+	(***************************************************************************************)  	
+					
+			
+	200:	// All movers go on track
+			FOR nForCounter := 1 TO moverCount DO
+				IF ipMoverApplication[nForCounter].std.P_SetPosition.x > 480.0 THEN
+					nJoinTrack[nForCounter] := 3;	
+				ELSE
+					nJoinTrack[nForCounter] := 1;	
+				END_IF
+			END_FOR
+			nStateMoverRecovery := 201;	
+				
+	201:	IF nMoverToJoinTrack < moverCount THEN
+				nMoverToJoinTrack := nMoverToJoinTrack +1;
+				nStateMoverRecovery := nStateMoverRecovery +1;
+			ELSE
+				nMoverToJoinTrack := 0;
+				nStateMoverRecovery := nStateMoverRecovery + 2; 
+			END_IF
+				
+	202:	IF ipMoverApplication[nMoverToJoinTrack].std.JoinTrack('',ipTrack[nJoinTrack[nMoverToJoinTrack]].std, fVeloRec, fAccelRec, fJerkRec) THEN
+				ipMoverApplication[nMoverToJoinTrack].P_nTrackId := nJoinTrack[nMoverToJoinTrack];
+				nStateMoverRecovery := nStateMoverRecovery -1;
+			END_IF
+			
+	203:	bDone := TRUE;
+			FOR nForCounter := 1 TO moverCount DO
+				bDone := bDone AND ipMoverApplication[nForCounter].std.P_JoinTrack.Done;
+			END_FOR
+			
+			IF bDone THEN
+				nStateMoverRecovery := 210;
+			END_IF
+		
+	210:  // Wait for all movers on-track
+			bDone := TRUE;
+			FOR nForCounter := 1 TO moverCount DO
+				bDone := bDone AND ipMoverApplication[nForCounter].std.P_JoinTrack.Done;
+			END_FOR
+			IF bDone THEN
+				nStateMoverRecovery := 220;
+			END_IF
+	
+			
+	
+	(***************************************************************************************)
+	(* Mover Recovery Part3: Adding all movers to the Initialization-List and sort them    *)
+	(*                       ascending.                              				       *)
+	(***************************************************************************************)  			
+				
+			
+	220:	// Adding all movers to the Initialization-List
+			FOR nForCounter := 1 TO moverCount DO
+				fbInitList.AddMover(ipMoverApplication[nForCounter].std);
+			END_FOR				
+			nStateMoverRecovery := 230;
+			
+			
+	230: 	// Adding Track-Order to the Initialization-List for Sorting-Order
+			IF fbInitList.AddTrack(ipTrack[1].std) > 0 THEN
+				nStateMoverRecovery := 231;
+			ELSE
+				 nResult := fbInitList.P_nResult;
+				sMessage := fbInitList.P_sMessage;	
+			END_IF
+			
+	231: 	IF fbInitList.AddTrack(ipTrack[3].std) > 0 THEN
+				nStateMoverRecovery := 232;
+			ELSE
+				 nResult := fbInitList.P_nResult;
+				sMessage := fbInitList.P_sMessage;	
+			END_IF			
+						
+ 	232:	nStateMoverRecovery := 238;
+		
+				
+	238:	// Sorting all movers 
+			 nResult := fbInitList.SortList();
+			sMessage := fbInitList.P_sMessage;
+			
+			IF nResult > 0 THEN
+				// Sorting succesful - will return the number of movers sorted e.g. 4
+				nStateMoverRecovery:= 240;
+			ELSIF nResult = 0 THEN
+				;// Sorting 
+			ELSIF nResult < 0 THEN
+				// sorting Error - Check error code and error message
+				nStateMoverRecovery:= 239;
+			END_IF
+	
+	240:	nStateMoverRecovery:= 250;			
+	
+
+	
+	(***************************************************************************************)
+	(* Mover Recovery Part4: Initialization-Run                                            *)
+	(*						 - Sending/Adding each mover to its next closest station       *)
+	(*						 - From there on each station takes care of the init-run       *)
+	(* 						 - Movers will queu in in front of station 01 				   *)
+	(***************************************************************************************)  
+
+	250: // Init all variables 
+					bOneMoverMoving := FALSE;
+			bAllMoversStandingStill := FALSE;
+					   bInitRunDone := FALSE;
+	
+				   nStateMoverRecovery := 300;
+	
+	300: // Check for next Mover
+		IF fbInitList.P_FirstInList <> 0 THEN
+				 nMoverIndex := fbInitList.P_FirstInList.P_Id;
+				 nTrackIndex := ipMoverApplication[nMoverIndex].P_nTrackId;
+			fPositionOnTrack := ipMoverApplication[nMoverIndex].std.P_SetOnTrack.SetPos;
+			
+			bFirstMoverIn := TRUE;
+				   nStateMoverRecovery := 310;
+		ELSE
+			IF bFirstMoverIn THEN
+				nStateMoverRecovery := 305;
+			ELSE
+				// Init-Run completed
+				bInitRunFlag := FALSE;
+				nStateMoverRecovery := 500;	
+			END_IF
+		END_IF
+			
+		
+	305: // Wait till at least one mover started moving, or timeout if no movement at all.
+		bOneMoverMoving := FALSE;
+		FOR idx:=1 TO moverCount DO	
+			IF ABS(ipMoverApplication[idx].std.P_SetVelocity.x) > 0.1
+			OR ABS(ipMoverApplication[idx].std.P_SetVelocity.y) > 0.1
+			THEN
+				bOneMoverMoving := TRUE;
+			END_IF
+		END_FOR		
+	
+		TimerWaitForMovement(IN:=TRUE, PT:=T#2S);
+		
+		IF bOneMoverMoving 
+		OR TimerWaitForMovement.Q 
+		THEN
+			TimerWaitForMovement(IN:=FALSE);
+			nStateMoverRecovery := 306;			
+		END_IF
+			
+		
+	306: // Wait till all movers are standing still	
+		bAllMoversStandingStill := TRUE;
+		FOR idx:=1 TO moverCount DO	
+			IF ABS(ipMoverApplication[idx].std.P_SetVelocity.x) > 0.001
+			OR ABS(ipMoverApplication[idx].std.P_SetVelocity.y) > 0.001
+			THEN
+				bAllMoversStandingStill := FALSE;
+			END_IF
+		END_FOR
+	
+		IF bAllMoversStandingStill THEN
+			bMoversQueuing := TRUE; 
+			FOR idx:=2 TO moverCount DO
+				IF NOT (ipMoverApplication[idx].std.P_MoveOnTrack.Busy OR ipMoverApplication[idx].std.P_MoveOnTrack.done) THEN
+					bMoversQueuing := FALSE;	
+				END_IF
+			END_FOR
+		ELSE
+			bMoversQueuing := FALSE;
+		END_IF
+		
+		IF bMoversQueuing THEN
+			       bInitRunDone := TRUE;
+			nStateMoverRecovery := 500;			
+		END_IF
+	
+		
+	310: // Figuring out the next station the mover has to travel to:
+		fMoverSpace := 155.0 + 5.0;
+	
+		fWaitingPositionStation01	:= ipTrack[1].P_TrackLength/2.0 - fMoverSpace;	
+		fWaitingPositionStation02	:= ipTrack[2].P_TrackLength/2.0 - fMoverSpace;	
+		fWaitingPositionStation03	:= ipTrack[3].P_TrackLength/2.0 - fMoverSpace;
+		fWaitingPositionStation04	:= ipTrack[1].P_TrackLength - fMoverSpace;	
+		fWaitingPositionStation05b	:= ipTrack[3].P_TrackLength - fMoverSpace;	
+		fWaitingPositionStation05c	:= ipTrack[2].P_TrackLength - fMoverSpace;	
+	
+		CASE nTrackIndex OF		
+		1:	// Mover on Track01 / Station01
+			IF fPositionOnTrack <= fWaitingPositionStation01 THEN
+				nNextStationIndex := 1;
+			ELSE
+				nNextStationIndex := 4;
+			END_IF	
+	
+		2:	// Mover on Track02 / Station02
+			IF fPositionOnTrack <= fWaitingPositionStation02 THEN
+				nNextStationIndex := 2;
+			ELSE
+				nNextStationIndex := 5;
+			END_IF			
+		
+		3:	// Mover on Track03 / Station 03
+			IF fPositionOnTrack <= fWaitingPositionStation03 THEN
+				nNextStationIndex := 3;
+			ELSE
+				nNextStationIndex := 5;
+			END_IF			
+		END_CASE
+		
+		nStateMoverRecovery := 320;
+			
+			
+	320: // Calculating the position the mover has to move to next:
+		nNextStationTrackIndex := 0;
+		
+		CASE nNextStationIndex OF
+			1:	nNextStationTrackIndex      := 1;
+				fNextStationWaitingPosition	:= fWaitingPositionStation01;	
+			
+			2:	nNextStationTrackIndex      := 2;
+				fNextStationWaitingPosition	:= fWaitingPositionStation02;			
+			
+			3:	nNextStationTrackIndex      := 3;
+				fNextStationWaitingPosition	:= fWaitingPositionStation03;			
+			
+			4:	nNextStationTrackIndex      := 1;
+				fNextStationWaitingPosition	:= fWaitingPositionStation04;				
+				
+			5:	IF nTrackIndex = 2 THEN
+					nNextStationTrackIndex := 2;
+					fNextStationWaitingPosition	:= fWaitingPositionStation05c;	
+				ELSIF nTrackIndex = 3 THEN
+					nNextStationTrackIndex := 3;
+					fNextStationWaitingPosition	:= fWaitingPositionStation05b;	
+				END_IF									
+		END_CASE
+			
+		IF nNextStationTrackIndex > 0 THEN
+			nStateMoverRecovery := 400;
+		END_IF
+	
+	
+	400: 	// Send mover to the next station
+			fMoverPosition     := fNextStationWaitingPosition;
+			fMoverVelocity     :=    300.0;
+			fMoverAcceleration :=  1_000.0;
+			fMoverJerk         := 10_000.0;	
+	
+			stMoveParameters.direction := Tc3_Mc3PlanarMotion.MC_DIRECTION.mcDirectionPositive;
+			stMoveParameters.gap       := 240.0;
+			
+			strInfo := CONCAT('Station: ', UINT_TO_STRING(nStationIndex));
+			strInfo := CONCAT(strInfo, ' Mover: ');
+			strInfo := CONCAT(strInfo, UDINT_TO_STRING(nMoverIndex));
+			strInfo := CONCAT(strInfo, ' move to next Station:' );
+			strInfo := CONCAT(strInfo, UDINT_TO_STRING(nNextStationIndex));
+			
+		
+			IF NOT ipMoverApplication[nMoverIndex].std.P_MoveOnTrack.Busy THEN
+	
+				FOR idx:=10 TO 1 BY -1 DO 
+					strInfoHistory[idx] := strInfoHistory[idx-1];
+				END_FOR
+				strInfoHistory[0] := strInfo;		
+			
+				ipMoverApplication[nMoverIndex].std.MoveOnTrack( strInfo,
+																 ipTrack[nNextStationTrackIndex].std,
+																 fMoverPosition,
+																 fMoverVelocity,
+																 fMoverAcceleration,
+																 fMoverJerk,
+																 stMoveParameters.gap,
+																 stMoveParameters.direction);
+				nStateMoverRecovery := nStateMoverRecovery +1;
+				
+				
+				ipMoverApplication[nMoverIndex].ProductData.bInitRun            := TRUE;
+				ipMoverApplication[nMoverIndex].ProductData.nDestinationProcess := 0;
+			END_IF	
+			
+	401: 
+		IF ipMoverApplication[nMoverIndex].std.P_MoveOnTrack.Active THEN
+			nStateMoverRecovery := 410;
+		 END_IF
+				 
+	410: // Mover to the list of the next station
+		ipStation[nNextStationIndex].P_List.AddMover(fbInitList.RemoveFirstInList());
+		nStateMoverRecovery := 300;	
+	
+	500:	// Mover recovery done
+			  MoverRecovery := TRUE;
+		nStateMoverRecovery := 0;		
+
+END_CASE
+
+
+
+
+	
+
+	
+
+		]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="P_bMoverError" Id="{4d172f1e-7e6a-4e24-8e74-92c2101ab0cc}">
+      <Declaration><![CDATA[PROPERTY P_bMoverError : BOOL]]></Declaration>
+      <Get Name="Get" Id="{bce3ce2d-0135-4acd-8aa2-ee97c8d3f4ed}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_bMoverError := bMoverError;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{0ddc8105-7229-4cac-ad1a-7c0261201a2a}">
+        <Declaration><![CDATA[
+VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[bMoverError := P_bMoverError;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="P_nAbortingSequence" Id="{e071d05e-71a0-4e2a-9bfa-37c2fb43dbc8}">
+      <Declaration><![CDATA[PROPERTY PUBLIC P_nAbortingSequence : UDINT]]></Declaration>
+      <Get Name="Get" Id="{7ccd7790-0ef5-4850-b71e-8e5b5cdc9a8c}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_nAbortingSequence := nAbortingSequence;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="P_nExecutingSequence" Id="{2f080f2f-85f3-456b-bc0d-305fcfe2c83e}">
+      <Declaration><![CDATA[PROPERTY PUBLIC P_nExecutingSequence : UDINT]]></Declaration>
+      <Get Name="Get" Id="{5ebea171-2f00-4d39-af16-140381469b18}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_nExecutingSequence := nExecutingSequence;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="P_nResettingSequence" Id="{8503c7e0-7158-4708-bee0-911086253845}">
+      <Declaration><![CDATA[PROPERTY PUBLIC P_nResettingSequence : UDINT]]></Declaration>
+      <Get Name="Get" Id="{b038f0da-67c8-4b09-84c3-877cf31cab85}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_nResettingSequence := nResettingSequence;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="P_nStartingSequence" Id="{b0355cc7-0414-4f8f-b49f-4c1d0c500252}">
+      <Declaration><![CDATA[PROPERTY PUBLIC P_nStartingSequence : UDINT]]></Declaration>
+      <Get Name="Get" Id="{a0c0794c-fd62-40e5-8fac-f1a0c628b031}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_nStartingSequence := nStartingSequence;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="P_nStartupSequence" Id="{b81b860a-0bc7-4f4d-b7f5-342fe682a81f}">
+      <Declaration><![CDATA[PROPERTY PUBLIC P_nStartupSequence : UDINT]]></Declaration>
+      <Get Name="Get" Id="{50501156-82c6-4064-985e-102bb43b7a8c}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_nStartupSequence := nStartupSequence;
+
+]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Method Name="Resetting" Id="{c2871364-6fd3-4daa-a8a0-6d60bd4e4fb1}" FolderPath="StateMachine\">
+      <Declaration><![CDATA[METHOD Resetting : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[CASE nResettingSequence OF 
+	
+	0: //Idle 
+		nResettingSequence := 20;
+		
+		
+	20: // Reset Movers
+		IF ipMotionSystem.ResetMovers() THEN
+			nResettingSequence := 21;
+		ELSE
+			;// Error			
+		END_IF
+		
+	21: IF ipMotionSystem.P_ResetMovers.Done THEN
+			nResettingSequence := 30;
+		ELSIF ipMotionSystem.P_ResetMovers.Error THEN
+			;//Error 	
+		END_IF
+
+		
+	30:	nResettingSequence := 40;
+		
+
+	40: // Adding Environment to Group
+		IF ipMotionSystem.AddEnvironmentToGroup() THEN
+			nResettingSequence := 41;
+		END_IF	
+		
+	41: IF ipMotionSystem.P_AddEnviromentToGroup.Done THEN
+			nResettingSequence := 50;
+		END_IF	
+		
+	
+	50: // Enable all tracks
+		IF ipMotionSystem.EnableTracks() THEN
+			nResettingSequence := 51;
+		ELSE
+			nResettingSequence := 55;
+		END_IF
+		
+	51:	
+		IF ipMotionSystem.P_EnableTracks.Done THEN
+			nResettingSequence := 60;
+		ELSIF ipMotionSystem.P_EnableTracks.Error THEN
+			;
+		END_IF
+			
+	60: 
+		IF ipMotionSystem.AddTracksToGroup() THEN
+			nResettingSequence := 61;
+		ELSE
+			nResettingSequence := 65;
+		END_IF
+	
+	61:
+		IF ipMotionSystem.P_AddTracksToGroup.Done THEN
+			nResettingSequence := 70;
+		ELSIF ipMotionSystem.P_AddTracksToGroup.Error THEN
+			;	
+		END_IF
+		
+		
+	70:	// Reset all Stations
+		bDone := TRUE;
+		FOR nForCounter := 1 TO nStationCount DO
+			bDone := bDone AND ipStation[nForCounter].ResetStation(TRUE);
+		END_FOR
+		
+		IF bDone THEN
+			FOR nForCounter := 1 TO nStationCount DO
+				ipStation[nForCounter].ResetStation(FALSE);
+			END_FOR
+			nResettingSequence := 80;
+		END_IF
+		
+		
+	80:	nResettingSequence := 100;	
+		
+
+		
+	100: // Reset done
+		nResettingSequence := 0; 
+		         Resetting := TRUE;
+
+
+END_CASE
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Starting" Id="{46255086-e343-4836-a772-d772d01a1ee2}" FolderPath="StateMachine\">
+      <Declaration><![CDATA[METHOD Starting : BOOL
+VAR
+	bAllMoversDone					: BOOL; 	
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[CASE nStartingSequence OF 
+	
+
+0:		// Idle
+		nStartingSequence := 10;
+		
+
+10: 	// Enable all movers
+		IF ipMotionSystem.EnableMovers() THEN
+			nStartingSequence := nStartingSequence + 1;
+		END_IF
+
+11: 	IF ipMotionSystem.P_EnableMovers.Done THEN
+			nStartingSequence := 20;
+		ELSIF ipMotionSystem.P_EnableMovers.Error THEN
+			;// Error = Not able to enable movers e.g. mover was not able to reach it's flight hight due to high payload 
+		END_IF	
+
+
+20: 	// Adding movers to the group
+		IF ipMotionSystem.AddMoversToGroup() THEN
+			nStartingSequence := nStartingSequence + 1;
+		END_IF
+
+21: 	IF ipMotionSystem.P_AddMoversToGroup.Done THEN
+			nStartingSequence := 30;
+		ELSIF ipMotionSystem.P_AddMoversToGroup.Error THEN
+			;// Error
+		END_IF	
+
+		
+30: 	// EnableGroup
+		IF ipMotionSystem.EnableGroup() THEN
+			nStartingSequence := nStartingSequence + 1;
+		END_IF
+	
+31: 	IF ipMotionSystem.P_EnableGroup.Done THEN
+			nStartingSequence := 40;
+		ELSIF ipMotionSystem.P_EnableGroup.Error THEN
+			;// Error
+		END_IF	
+		
+		
+40:		// Check if all are movers activated and in free movement 
+		bAllMoversDone := TRUE;
+		FOR nForCounter := 1 TO moverCount DO		
+			IF ipMoverApplication[nForCounter].std.P_State       <> MC_PLANAR_STATE.Enabled
+			OR ipMoverApplication[nForCounter].std.P_CommandMode <> MC_PLANAR_MOVER_COMMAND_MODE.FreeMovement 
+			THEN
+				bAllMoversDone := FALSE;
+				EXIT;		
+			END_IF
+		END_FOR
+		
+		IF bAllMoversDone THEN
+			nStartingSequence := 100;
+		END_IF	
+
+		
+100:  // Mover Recovery/Sorting
+		MoverRecovery(bReset:=TRUE);
+		nStartingSequence := 101;	
+
+101:	IF MoverRecovery(bReset:=FALSE) THEN
+			nStartingSequence := 300;	
+		END_IF
+
+300:  // Starting sequence done
+				 Starting := TRUE;			 
+		nStartingSequence := 0; 
+		
+		
+		
+END_CASE
+
+
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Startup" Id="{71ba70df-f214-454e-a301-d2cdfa89dc57}" FolderPath="StateMachine\">
+      <Declaration><![CDATA[METHOD Startup : BOOL
+VAR
+	aMoverDetectionSetup	: ARRAY[1..3] OF ST_TcIoMoverDetectionSetup;
+END_VAR
+
+VAR_INST
+	
+	// Tracks
+	nTrackToInit			: UDINT;
+	nTrackToGroup			: UDINT;
+
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[CASE nStartupSequence OF 
+	
+	0: //Idle 	
+		nStartupSequence := 10;
+		
+	
+	//  ======= TRACKS =======
+			
+	10: // Initialization of all tracks
+		IF nTrackToInit < trackCount THEN
+			nTrackToInit := nTrackToInit + 1;
+			nStartupSequence := nStartupSequence +1;
+		ELSE
+			    nTrackToInit := 0;
+			nStartupSequence := 100;
+		END_IF
+		
+	11: IF ipTrack[nTrackToInit].Initialize(TRUE) THEN
+			ipTrack[nTrackToInit].Initialize(FALSE);		
+			nStartupSequence := nStartupSequence -1;
+		END_IF
+
+	100: // Start-Up Done!				
+		Startup := TRUE;
+		
+	
+END_CASE
+
+
+
+
+
+
+
+
+
+
+
+
+
+]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="std" Id="{4ac05f88-9c17-474d-b7a1-77effd8518d5}">
+      <Declaration><![CDATA[PROPERTY std : I_MotionSystem]]></Declaration>
+      <Get Name="Get" Id="{9f53dac5-9cf7-44f1-9da5-7c1b8369d796}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[IF ipMotionSystem <> 0 THEN
+	std := ipMotionSystem;	
+END_IF
+]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{24bf5ca8-87bd-4d30-b814-47885f10e153}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[ipMotionSystem := std;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+  </POU>
+</TcPlcObject>

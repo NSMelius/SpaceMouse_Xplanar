@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="FB_TrackBase" Id="{c3c3f9fa-5ce3-4074-9364-756b12d0b77f}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_TrackBase
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+	bBusy 	: BOOL;
+	bError 	: BOOL;
+END_VAR
+VAR
+	trackLinePosStart 	: PositionXYC;
+	trackLinePosEnd 	: PositionXYC;
+	fbTrackStandard		: FB_TrackStandard;
+	fTrackLength		: LREAL;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="ccl00_cycle" Id="{fdee6f85-73f9-4381-bd15-490efb065389}">
+      <Declaration><![CDATA[METHOD ccl00_cycle : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[fbTrackStandard.Cycle();]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="P_TrackLength" Id="{de37312d-e30d-4920-ad38-7645514e566b}">
+      <Declaration><![CDATA[PROPERTY P_TrackLength : LREAL]]></Declaration>
+      <Get Name="Get" Id="{b776e306-77dd-4def-b958-9f6aa2dc687d}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_TrackLength := fTrackLength;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="std" Id="{9be86626-2dbf-44cd-9915-089d605f0a97}">
+      <Declaration><![CDATA[PROPERTY std : I_TrackStandard]]></Declaration>
+      <Get Name="Get" Id="{895572ff-f985-4450-b868-37aab89a00b8}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[std := fbTrackStandard;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+  </POU>
+</TcPlcObject>

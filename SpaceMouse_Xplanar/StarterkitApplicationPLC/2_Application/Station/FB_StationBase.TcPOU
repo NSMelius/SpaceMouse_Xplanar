@@ -1,0 +1,270 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="FB_StationBase" Id="{6c06ce29-60d6-4edd-9e73-bd154cb4fc1a}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_StationBase IMPLEMENTS I_Station
+VAR
+	stMoveParameters 	: ST_MoveOnTrackOptions; 		
+END_VAR
+VAR_OUTPUT
+	VisuPosX			: LREAL;
+	VisuPosY			: LREAL;
+END_VAR
+
+VAR
+
+	idx  				: UDINT;
+	nState 				: INT;	
+	nStateInit			: INT;
+	
+	StationPosition     : PositionXYC;	
+	PositionOnTrack		: ST_StationTrackPosition;
+
+	ipMoverInStation	: I_MoverApplication;
+	ipListAhead 		: I_List;
+
+	fbList_Station		: FB_List;
+	fbList_InputB		: FB_List;	
+	fbList_InputC		: FB_List;		
+	
+	bClearStation		: BOOL;
+
+	strInfo				: STRING;
+	strInfoHistory		: ARRAY[0..10] OF STRING;
+	
+	nErrorCode			: UDINT;
+
+END_VAR
+
+
+
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="ccl00_cycle" Id="{34731cae-92d3-470e-948e-f313f80c2356}">
+      <Declaration><![CDATA[METHOD ccl00_cycle : BOOL
+VAR_INPUT
+END_VAR
+VAR
+	nForCounter : INT;
+END_VAR
+
+
+VAR_INST
+	
+	fTestValueX	: LREAL;
+	fTestValueY : LREAL;	
+	
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+
+
+;
+
+
+
+	
+	
+	
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="ClearList" Id="{8056fd41-d748-4e36-b1c2-25f3150c9450}">
+      <Declaration><![CDATA[METHOD ClearList : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+
+
+	fbList_Station.ClearList();
+	ClearList := TRUE;]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="InputConnections" Id="{34fd3031-c6a8-4ea2-abd4-4f3a51643667}">
+      <Declaration><![CDATA[PROPERTY InputConnections : I_Station]]></Declaration>
+      <Get Name="Get" Id="{1dbbf836-0c0c-4df7-9a1a-11fb4c6148d3}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{dfcee311-938e-45c8-ba56-af78b7e08ab3}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="OutputConnections" Id="{cebb55f2-866c-45d9-ab12-ae708a109ec5}">
+      <Declaration><![CDATA[PROPERTY OutputConnections : I_Station]]></Declaration>
+      <Get Name="Get" Id="{86e2642a-eeec-4e95-91da-1cab4798a6ea}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{fb60e19e-0407-4f65-864c-107c6d78fae7}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="P_List" Id="{dd8be59f-7fdb-49be-af8f-f3d6c667326b}">
+      <Declaration><![CDATA[PROPERTY P_List : I_List]]></Declaration>
+      <Get Name="Get" Id="{bb2415d7-57ef-4ca5-8fc8-fa23c8032c9f}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_List := fbList_Station;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="P_List_Input_B" Id="{01a443e3-6745-446a-8e03-088a7d1b9a92}">
+      <Declaration><![CDATA[PROPERTY P_List_Input_B : I_List]]></Declaration>
+      <Get Name="Get" Id="{71564a5a-ca6b-4825-bd1e-41592eef9e2b}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_List_Input_B := fbList_InputB;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="P_List_Input_C" Id="{88d917c1-18b3-433e-a02f-640d5b961758}">
+      <Declaration><![CDATA[PROPERTY P_List_Input_C : I_List]]></Declaration>
+      <Get Name="Get" Id="{730b40f3-40e4-48c1-8f61-85d40ef62e33}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_List_Input_C := fbList_InputC;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="P_nErrorCode" Id="{2e2ae613-d610-47e8-b3d4-cde422db6656}">
+      <Declaration><![CDATA[PROPERTY P_nErrorCode : UDINT]]></Declaration>
+      <Get Name="Get" Id="{a34689d1-9f6e-4fba-a0cb-861b3afe2574}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_nErrorCode := nErrorCode;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="P_Position" Id="{716a4db0-5fdc-43ab-9a26-c9895a90ab56}">
+      <Declaration><![CDATA[PROPERTY P_Position : BOOL //PositionXYC]]></Declaration>
+      <Get Name="Get" Id="{b013b9b8-792d-42b8-9bd0-9d0b50436b60}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[//P_Position := StationPosition;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="P_PositionOnTrack" Id="{7b17c65c-c872-4abf-80f3-d922ba1d1140}">
+      <Declaration><![CDATA[PROPERTY P_PositionOnTrack : ST_StationTrackPosition]]></Declaration>
+      <Get Name="Get" Id="{7d91219e-91eb-48f3-848e-17bd067eaf47}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_PositionOnTrack := PositionOnTrack;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Method Name="Processing" Id="{42201f02-f02c-4b3c-8f95-fdbdc4116e1a}">
+      <Declaration><![CDATA[METHOD Processing : BOOL
+VAR_INPUT
+	i_nMachineState 	: INT;		// 1=Starting, 2=Running
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+CASE nState OF
+	
+	0: // waiting for Mover
+	
+	
+	10: // do process
+	
+	100: // mover mover to nother list
+
+
+END_CASE]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="ResetStation" Id="{681f4b43-a4a9-4309-b987-7f25d84754b1}">
+      <Declaration><![CDATA[METHOD ResetStation : BOOL
+VAR_INPUT
+	bClear	: BOOL;
+END_VAR
+
+
+VAR_INST
+	nStateReset : INT;	
+	nTestCnt	: INT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+
+	CASE nStateReset OF
+		
+	0:	IF bClear THEN
+			ResetStation := FALSE;
+			 nStateReset := 10;
+		END_IF
+	
+	10: 
+		bClearStation := TRUE;
+		nState := 0;
+		IF ClearList() THEN 
+			nStateReset := 20;
+		END_IF
+		nTestCnt := nTestCnt +1;
+	
+	20:	
+		ResetStation := TRUE;
+		 nStateReset := 30;
+		 
+	30: 
+		IF NOT bClear THEN
+			nStateReset := 0;
+		END_IF 
+		
+	END_CASE
+	]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

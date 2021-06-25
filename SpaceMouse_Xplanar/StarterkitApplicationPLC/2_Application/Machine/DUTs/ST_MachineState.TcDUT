@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <DUT Name="ST_MachineState" Id="{b794778f-ca53-4e7f-87bb-35c4e79dd035}">
+    <Declaration><![CDATA[TYPE ST_MachineState :
+STRUCT
+
+	bStartup	 : BOOL;		
+	bStartupDone : BOOL;
+	bAborting 	 : BOOL;
+	bResetting	 : BOOL;
+	bStarting	 : BOOL;
+	bRunning	 : BOOL;
+
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

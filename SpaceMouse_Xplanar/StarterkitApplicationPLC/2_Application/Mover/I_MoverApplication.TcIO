@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <Itf Name="I_MoverApplication" Id="{462647f0-74b1-41d4-a415-eb9aa74855bc}">
+    <Declaration><![CDATA[INTERFACE I_MoverApplication
+]]></Declaration>
+    <Method Name="Cycle" Id="{f43fd93a-e2cb-47c2-a3de-21bdc47238e4}">
+      <Declaration><![CDATA[METHOD Cycle]]></Declaration>
+    </Method>
+    <Property Name="P_nMoverIndex" Id="{fd522d27-46d9-4287-8ed1-07f1c2b347bd}">
+      <Declaration><![CDATA[PROPERTY P_nMoverIndex : INT]]></Declaration>
+      <Get Name="Get" Id="{f2f6d83d-5c21-48c1-be2d-f15247fc1cbe}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+      <Set Name="Set" Id="{b88c3736-3c7c-49fc-8dbe-6f4ec811a7e9}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Set>
+    </Property>
+    <Property Name="P_nTrackId" Id="{25fc43cf-5f42-4781-906a-c57e781ab9b0}">
+      <Declaration><![CDATA[PROPERTY P_nTrackId : UDINT]]></Declaration>
+      <Get Name="Get" Id="{e05c84f6-2f4d-45de-9469-486d358a75ca}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+      <Set Name="Set" Id="{36b020a8-0e50-45e4-a0cf-1dbd6e7ab417}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Set>
+    </Property>
+    <Property Name="ProductData" Id="{518eaabc-a1a8-43fa-b720-8030d4991eaa}">
+      <Declaration><![CDATA[PROPERTY ProductData : Reference to ST_ProductData]]></Declaration>
+      <Get Name="Get" Id="{87de463b-8d32-4fc3-bccc-f8f4b404c54f}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+      <Set Name="Set" Id="{8403a9fa-72b4-497b-9a9b-7facd5a11d25}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Set>
+    </Property>
+    <Property Name="std" Id="{41dc6163-7ad5-404b-bb85-342953278733}">
+      <Declaration><![CDATA[PROPERTY std : I_XPlanarMoverStandard]]></Declaration>
+      <Get Name="Get" Id="{146c7100-5ca7-46e3-b180-6bfa8cdcd63c}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+      <Set Name="Set" Id="{242b013d-dcba-4ca4-8de8-e6dc388e8a49}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+      </Set>
+    </Property>
+  </Itf>
+</TcPlcObject>

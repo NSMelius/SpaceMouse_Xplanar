@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <Itf Name="I_Track" Id="{c056fab4-a3ab-4930-86af-ad9478699ad1}">
+    <Declaration><![CDATA[INTERFACE I_Track
+]]></Declaration>
+    <Method Name="ccl00_cycle" Id="{76697aab-4652-47f0-8542-d27ebd939037}">
+      <Declaration><![CDATA[METHOD ccl00_cycle : BOOL
+]]></Declaration>
+    </Method>
+    <Method Name="Initialize" Id="{71b350b6-13a8-4ae0-8ac9-47f0da51cb74}">
+      <Declaration><![CDATA[METHOD Initialize : BOOL
+VAR_INPUT
+	bExecute 			: BOOL;
+END_VAR
+]]></Declaration>
+    </Method>
+    <Property Name="P_TrackLength" Id="{9883037c-808b-4094-8ca8-f817133cf79e}">
+      <Declaration><![CDATA[PROPERTY P_TrackLength : LREAL
+]]></Declaration>
+      <Get Name="Get" Id="{acbae5f4-591f-4c96-bc19-44a684e173ed}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Property Name="std" Id="{9c4cc0bf-7f92-45d8-bcf5-579248f8a8bd}">
+      <Declaration><![CDATA[PROPERTY std : I_TrackStandard
+]]></Declaration>
+      <Get Name="Get" Id="{106ec3d4-27c1-4f23-a39a-8de9fcf4410f}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+  </Itf>
+</TcPlcObject>
