@@ -2,6 +2,7 @@
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
   <POU Name="XplanarJoystickInput" Id="{628e42b2-83a3-4989-a50b-c28d690be976}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK XplanarJoystickInput
+
 VAR	
 	_stMouseInputs	: REFERENCE TO SpaceMouseInputs;
 	fbMover1	: MC_PlanarMover;
@@ -148,14 +149,26 @@ fbGroup.Update();
 fbMover1.Update();]]></ST>
       </Implementation>
     </Method>
-    <Property Name="MouseInputs" Id="{ce6319ab-7d1e-45b1-86c5-02cb5cc0a402}">
-      <Declaration><![CDATA[PROPERTY MouseInputs : SpaceMouseInputs]]></Declaration>
-      <Set Name="Set" Id="{9f95d38a-6c43-4a5c-a0e7-e8506673714a}">
+    <Property Name="MouseInputs" Id="{0e78cf1d-aa58-41cf-9152-8ab18ea41649}">
+      <Declaration><![CDATA[PROPERTY MouseInputs : REFERENCE TO SpaceMouseInputs]]></Declaration>
+      <Get Name="Get" Id="{70352a8c-d981-4cce-83bc-69e57269270a}">
         <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[_stMouseInputs REF= MouseInputs;]]></ST>
+          <ST><![CDATA[IF __ISVALIDREF(_stMouseInputs) THEN
+MouseInputs REF= _stMouseInputs;
+END_IF]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{3b5b1134-1e3d-41d5-83c1-64c3c8f1fcd5}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[IF __ISVALIDREF(MouseInputs) THEN
+_stMouseInputs REF= MouseInputs;
+END_IF]]></ST>
         </Implementation>
       </Set>
     </Property>

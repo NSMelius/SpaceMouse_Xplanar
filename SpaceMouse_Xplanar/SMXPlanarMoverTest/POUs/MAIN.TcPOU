@@ -12,11 +12,13 @@ END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[IF NOT bInit THEN
-	fbApp.MouseInputs := stMouseInputs;
+	fbApp.MouseInputs REF= stMouseInputs;
 	bInit := TRUE;
 END_IF
 
-fbApp.Cycle();]]></ST>
+IF bInit THEN
+fbApp.Cycle();
+END_IF]]></ST>
     </Implementation>
   </POU>
 </TcPlcObject>
