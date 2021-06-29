@@ -1507,92 +1507,6 @@
 			</SubItem>
 		</DataType>
 		<DataType>
-			<Name GUID="{A22CC075-6392-2037-6D35-CD0FCBF02F04}" AutoDeleteType="true" ForceIecDecl="true">Status_89F96640_Plc</Name>
-			<BitSize>32</BitSize>
-			<SubItem>
-				<Name>Enabled</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000010}">BIT</Type>
-				<BitSize>1</BitSize>
-				<BitOffs>0</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>Tripped</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000010}">BIT</Type>
-				<BitSize>1</BitSize>
-				<BitOffs>1</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>Hardware_Protection</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000010}">BIT</Type>
-				<BitSize>1</BitSize>
-				<BitOffs>4</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>Current_Level_Warning</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000010}">BIT</Type>
-				<BitSize>1</BitSize>
-				<BitOffs>7</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>Cool_Down_Lock</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000010}">BIT</Type>
-				<BitSize>1</BitSize>
-				<BitOffs>8</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>Diag</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000010}">BIT</Type>
-				<BitSize>1</BitSize>
-				<BitOffs>12</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>TxPDO_State</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000010}">BIT</Type>
-				<BitSize>1</BitSize>
-				<BitOffs>13</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>Input_cycle_counter</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000011}">BIT2</Type>
-				<BitSize>2</BitSize>
-				<BitOffs>14</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>Error</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000010}">BIT</Type>
-				<BitSize>1</BitSize>
-				<BitOffs>18</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>State_Reset</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000010}">BIT</Type>
-				<BitSize>1</BitSize>
-				<BitOffs>19</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>State_Switch</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000010}">BIT</Type>
-				<BitSize>1</BitSize>
-				<BitOffs>20</BitOffs>
-			</SubItem>
-		</DataType>
-		<DataType>
-			<Name GUID="{D3346D74-8B08-77F4-4CC8-AB11026A6C65}" AutoDeleteType="true" ForceIecDecl="true">MDP5001_922_I_D0074435</Name>
-			<BitSize>64</BitSize>
-			<SubItem>
-				<Name>MDP5001_922_OCP_Inputs_Channel_1_Status</Name>
-				<Type GUID="{A22CC075-6392-2037-6D35-CD0FCBF02F04}">Status_89F96640_Plc</Type>
-				<BitSize>32</BitSize>
-				<BitOffs>0</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>MDP5001_922_OCP_Inputs_Channel_2_Status</Name>
-				<Type GUID="{A22CC075-6392-2037-6D35-CD0FCBF02F04}">Status_89F96640_Plc</Type>
-				<BitSize>32</BitSize>
-				<BitOffs>32</BitOffs>
-			</SubItem>
-		</DataType>
-		<DataType>
 			<Name GUID="{54C6E99E-0FBF-745F-C9D7-F15BC1C640F4}" Namespace="Tc3_Mc3PlanarMotion" IecLibraryType="true" AutoDeleteType="true">CDT_MCTOPLC_PLANAR_MOVER</Name>
 			<Comment><![CDATA[ Contains the information of the PlanarMover passed from MC to PLC. ]]></Comment>
 			<BitSize>320</BitSize>
@@ -1684,6 +1598,119 @@
 			</Properties>
 		</DataType>
 		<DataType>
+			<Name GUID="{A22CC075-6392-2037-6D35-CD0FCBF02F04}" AutoDeleteType="true" ForceIecDecl="true">Status_89F96640_Plc</Name>
+			<BitSize>32</BitSize>
+			<SubItem>
+				<Name>Enabled</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000010}">BIT</Type>
+				<BitSize>1</BitSize>
+				<BitOffs>0</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Tripped</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000010}">BIT</Type>
+				<BitSize>1</BitSize>
+				<BitOffs>1</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Hardware_Protection</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000010}">BIT</Type>
+				<BitSize>1</BitSize>
+				<BitOffs>4</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Current_Level_Warning</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000010}">BIT</Type>
+				<BitSize>1</BitSize>
+				<BitOffs>7</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Cool_Down_Lock</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000010}">BIT</Type>
+				<BitSize>1</BitSize>
+				<BitOffs>8</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Diag</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000010}">BIT</Type>
+				<BitSize>1</BitSize>
+				<BitOffs>12</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>TxPDO_State</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000010}">BIT</Type>
+				<BitSize>1</BitSize>
+				<BitOffs>13</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Input_cycle_counter</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000011}">BIT2</Type>
+				<BitSize>2</BitSize>
+				<BitOffs>14</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>Error</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000010}">BIT</Type>
+				<BitSize>1</BitSize>
+				<BitOffs>18</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>State_Reset</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000010}">BIT</Type>
+				<BitSize>1</BitSize>
+				<BitOffs>19</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>State_Switch</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000010}">BIT</Type>
+				<BitSize>1</BitSize>
+				<BitOffs>20</BitOffs>
+			</SubItem>
+		</DataType>
+		<DataType>
+			<Name GUID="{D3346D74-8B08-77F4-4CC8-AB11026A6C65}" AutoDeleteType="true" ForceIecDecl="true">MDP5001_922_I_D0074435</Name>
+			<BitSize>64</BitSize>
+			<SubItem>
+				<Name>MDP5001_922_OCP_Inputs_Channel_1_Status</Name>
+				<Type GUID="{A22CC075-6392-2037-6D35-CD0FCBF02F04}">Status_89F96640_Plc</Type>
+				<BitSize>32</BitSize>
+				<BitOffs>0</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>MDP5001_922_OCP_Inputs_Channel_2_Status</Name>
+				<Type GUID="{A22CC075-6392-2037-6D35-CD0FCBF02F04}">Status_89F96640_Plc</Type>
+				<BitSize>32</BitSize>
+				<BitOffs>32</BitOffs>
+			</SubItem>
+		</DataType>
+		<DataType>
+			<Name GUID="{647182DA-ACC0-95CA-E5B3-88E085CDB644}" Namespace="Tc3_Mc3PlanarMotion" IecLibraryType="true" AutoDeleteType="true">CDT_PLCTOMC_PLANAR_MOVER</Name>
+			<Comment><![CDATA[ Contains the information of the MC_PlanarMover passed from PLC to MC. ]]></Comment>
+			<BitSize>64</BitSize>
+			<SubItem>
+				<Name>STD</Name>
+				<Type GUID="{BC77732B-A71D-4084-AA53-85A5016932F3}" Namespace="MC" ReferenceTo="true">CDT_PLCTOMC_PLANAR_MOVER_STD</Type>
+				<Comment><![CDATA[ Mover standard data that is transferred from this function block to the PlanarMover. ]]></Comment>
+				<BitSize>64</BitSize>
+				<BitOffs>0</BitOffs>
+				<Properties>
+					<Property>
+						<Name>TcPointerMapping</Name>
+					</Property>
+					<Property>
+						<Name>Namespace</Name>
+						<Value>MC</Value>
+					</Property>
+				</Properties>
+			</SubItem>
+			<Properties>
+				<Property>
+					<Name>Namespace</Name>
+					<Value>MC</Value>
+				</Property>
+			</Properties>
+		</DataType>
+		<DataType>
 			<Name GUID="{D0251FE5-2790-52CD-F62C-3C93B3BD466A}" AutoDeleteType="true" ForceIecDecl="true">Control_7B92A931_Plc</Name>
 			<BitSize>16</BitSize>
 			<SubItem>
@@ -1714,33 +1741,6 @@
 				<BitSize>16</BitSize>
 				<BitOffs>16</BitOffs>
 			</SubItem>
-		</DataType>
-		<DataType>
-			<Name GUID="{647182DA-ACC0-95CA-E5B3-88E085CDB644}" Namespace="Tc3_Mc3PlanarMotion" IecLibraryType="true" AutoDeleteType="true">CDT_PLCTOMC_PLANAR_MOVER</Name>
-			<Comment><![CDATA[ Contains the information of the MC_PlanarMover passed from PLC to MC. ]]></Comment>
-			<BitSize>64</BitSize>
-			<SubItem>
-				<Name>STD</Name>
-				<Type GUID="{BC77732B-A71D-4084-AA53-85A5016932F3}" Namespace="MC" ReferenceTo="true">CDT_PLCTOMC_PLANAR_MOVER_STD</Type>
-				<Comment><![CDATA[ Mover standard data that is transferred from this function block to the PlanarMover. ]]></Comment>
-				<BitSize>64</BitSize>
-				<BitOffs>0</BitOffs>
-				<Properties>
-					<Property>
-						<Name>TcPointerMapping</Name>
-					</Property>
-					<Property>
-						<Name>Namespace</Name>
-						<Value>MC</Value>
-					</Property>
-				</Properties>
-			</SubItem>
-			<Properties>
-				<Property>
-					<Name>Namespace</Name>
-					<Value>MC</Value>
-				</Property>
-			</Properties>
 		</DataType>
 		<DataType>
 			<Name GUID="{18071995-0000-0000-0000-002000000002}" IecBaseType="true" BitType="true" AutoDeleteType="true" HideSubItems="true">ARRAY [0..1] OF BIT</Name>
@@ -31426,14 +31426,6 @@
 					<Vars VarGrpType="1">
 						<Name>PlcTask Inputs</Name>
 						<Var>
-							<Name>MAIN.EL9222_9482.MDP5001_922_Input</Name>
-							<Type GUID="{D3346D74-8B08-77F4-4CC8-AB11026A6C65}">MDP5001_922_I_D0074435</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.EL9222_6600.MDP5001_922_Input</Name>
-							<Type GUID="{D3346D74-8B08-77F4-4CC8-AB11026A6C65}">MDP5001_922_I_D0074435</Type>
-						</Var>
-						<Var>
 							<Name>MAIN.fbApp.fbMover1.MCTOPLC</Name>
 							<Comment><![CDATA[ Mover data that is transferred from the Planar Mover to this function block. ]]></Comment>
 							<Type GUID="{54C6E99E-0FBF-745F-C9D7-F15BC1C640F4}" Namespace="Tc3_Mc3PlanarMotion">CDT_MCTOPLC_PLANAR_MOVER</Type>
@@ -31463,17 +31455,17 @@
 							<Comment><![CDATA[ Group data that is transferred from the Planar Group to this function block. ]]></Comment>
 							<Type GUID="{E06D295F-3D94-4B18-B587-C89D73DA41F4}" Namespace="MC">CDT_MCTOPLC_GROUP_PLANAR</Type>
 						</Var>
+						<Var>
+							<Name>MAIN.EL9222_9482.MDP5001_922_Input</Name>
+							<Type GUID="{D3346D74-8B08-77F4-4CC8-AB11026A6C65}">MDP5001_922_I_D0074435</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.EL9222_6600.MDP5001_922_Input</Name>
+							<Type GUID="{D3346D74-8B08-77F4-4CC8-AB11026A6C65}">MDP5001_922_I_D0074435</Type>
+						</Var>
 					</Vars>
 					<Vars VarGrpType="2" AreaNo="1">
 						<Name>PlcTask Outputs</Name>
-						<Var>
-							<Name>MAIN.EL9222_9482.MDP5001_922_Output</Name>
-							<Type GUID="{D3346D75-8B08-77F4-4CC8-AB11026A6C65}">MDP5001_922_O_D0074435</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.EL9222_6600.MDP5001_922_Output</Name>
-							<Type GUID="{D3346D75-8B08-77F4-4CC8-AB11026A6C65}">MDP5001_922_O_D0074435</Type>
-						</Var>
 						<Var>
 							<Name>MAIN.fbApp.fbMover1.PLCTOMC</Name>
 							<Comment><![CDATA[ Mover data that is transferred from the Planar Mover to this function block. ]]></Comment>
@@ -31493,6 +31485,14 @@
 							<Name>MAIN.fbApp.fbMover4.PLCTOMC</Name>
 							<Comment><![CDATA[ Mover data that is transferred from the Planar Mover to this function block. ]]></Comment>
 							<Type GUID="{647182DA-ACC0-95CA-E5B3-88E085CDB644}" Namespace="Tc3_Mc3PlanarMotion">CDT_PLCTOMC_PLANAR_MOVER</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.EL9222_9482.MDP5001_922_Output</Name>
+							<Type GUID="{D3346D75-8B08-77F4-4CC8-AB11026A6C65}">MDP5001_922_O_D0074435</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.EL9222_6600.MDP5001_922_Output</Name>
+							<Type GUID="{D3346D75-8B08-77F4-4CC8-AB11026A6C65}">MDP5001_922_O_D0074435</Type>
 						</Var>
 					</Vars>
 					<UnrestoredVarLinks ImportTime="2021-06-14T11:45:51">

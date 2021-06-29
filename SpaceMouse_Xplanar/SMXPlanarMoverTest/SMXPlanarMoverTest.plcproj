@@ -70,10 +70,6 @@
       <DefaultResolution>Tc3_Physics, * (Beckhoff Automation GmbH)</DefaultResolution>
       <Namespace>Tc3_Physics</Namespace>
     </PlaceholderReference>
-    <PlaceholderReference Include="Tc3_XPlanarStandard">
-      <DefaultResolution>Tc3_XPlanarStandard, * (Beckhoff Automation GmbH)</DefaultResolution>
-      <Namespace>Tc3_XPlanarStandard</Namespace>
-    </PlaceholderReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="SMXPlanarMoverTest.tmc">
