@@ -32466,32 +32466,32 @@ External Setpoint Generation:
 						</Var>
 						<Var>
 							<Name>MAIN.fbApp.fbMover1.MCTOPLC</Name>
-							<Comment><![CDATA[ Mover data that is transferred from the PlanarMover to this function block. ]]></Comment>
+							<Comment><![CDATA[ Mover data that is transferred from the Planar Mover to this function block. ]]></Comment>
 							<Type GUID="{54C6E99E-0FBF-745F-C9D7-F15BC1C640F4}" Namespace="Tc3_Mc3PlanarMotion">CDT_MCTOPLC_PLANAR_MOVER</Type>
 						</Var>
 						<Var>
 							<Name>MAIN.fbApp.fbMover2.MCTOPLC</Name>
-							<Comment><![CDATA[ Mover data that is transferred from the PlanarMover to this function block. ]]></Comment>
+							<Comment><![CDATA[ Mover data that is transferred from the Planar Mover to this function block. ]]></Comment>
 							<Type GUID="{54C6E99E-0FBF-745F-C9D7-F15BC1C640F4}" Namespace="Tc3_Mc3PlanarMotion">CDT_MCTOPLC_PLANAR_MOVER</Type>
 						</Var>
 						<Var>
 							<Name>MAIN.fbApp.fbMover3.MCTOPLC</Name>
-							<Comment><![CDATA[ Mover data that is transferred from the PlanarMover to this function block. ]]></Comment>
+							<Comment><![CDATA[ Mover data that is transferred from the Planar Mover to this function block. ]]></Comment>
 							<Type GUID="{54C6E99E-0FBF-745F-C9D7-F15BC1C640F4}" Namespace="Tc3_Mc3PlanarMotion">CDT_MCTOPLC_PLANAR_MOVER</Type>
 						</Var>
 						<Var>
 							<Name>MAIN.fbApp.fbMover4.MCTOPLC</Name>
-							<Comment><![CDATA[ Mover data that is transferred from the PlanarMover to this function block. ]]></Comment>
+							<Comment><![CDATA[ Mover data that is transferred from the Planar Mover to this function block. ]]></Comment>
 							<Type GUID="{54C6E99E-0FBF-745F-C9D7-F15BC1C640F4}" Namespace="Tc3_Mc3PlanarMotion">CDT_MCTOPLC_PLANAR_MOVER</Type>
 						</Var>
 						<Var>
 							<Name>MAIN.fbApp.fbEnvironment.MCTOPLC_STD</Name>
-							<Comment><![CDATA[ Environment data that is transferred from the PlanarEnvironment to this function block. ]]></Comment>
+							<Comment><![CDATA[ Environment data that is transferred from the Planar Environment to this function block. ]]></Comment>
 							<Type GUID="{79107B5F-AFEC-4E5A-AF95-460E7D782CE1}" Namespace="MC">CDT_MCTOPLC_PLANAR_ENVIRONMENT</Type>
 						</Var>
 						<Var>
 							<Name>MAIN.fbApp.fbGroup.MCTOPLC_STD</Name>
-							<Comment><![CDATA[ Group data that is transferred from the PlanarGroup to this function block. ]]></Comment>
+							<Comment><![CDATA[ Group data that is transferred from the Planar Group to this function block. ]]></Comment>
 							<Type GUID="{E06D295F-3D94-4B18-B587-C89D73DA41F4}" Namespace="MC">CDT_MCTOPLC_GROUP_PLANAR</Type>
 						</Var>
 					</Vars>
@@ -32507,22 +32507,22 @@ External Setpoint Generation:
 						</Var>
 						<Var>
 							<Name>MAIN.fbApp.fbMover1.PLCTOMC</Name>
-							<Comment><![CDATA[ Mover data that is transferred from the PlanarMover to this function block. ]]></Comment>
+							<Comment><![CDATA[ Mover data that is transferred from the Planar Mover to this function block. ]]></Comment>
 							<Type GUID="{647182DA-ACC0-95CA-E5B3-88E085CDB644}" Namespace="Tc3_Mc3PlanarMotion">CDT_PLCTOMC_PLANAR_MOVER</Type>
 						</Var>
 						<Var>
 							<Name>MAIN.fbApp.fbMover2.PLCTOMC</Name>
-							<Comment><![CDATA[ Mover data that is transferred from the PlanarMover to this function block. ]]></Comment>
+							<Comment><![CDATA[ Mover data that is transferred from the Planar Mover to this function block. ]]></Comment>
 							<Type GUID="{647182DA-ACC0-95CA-E5B3-88E085CDB644}" Namespace="Tc3_Mc3PlanarMotion">CDT_PLCTOMC_PLANAR_MOVER</Type>
 						</Var>
 						<Var>
 							<Name>MAIN.fbApp.fbMover3.PLCTOMC</Name>
-							<Comment><![CDATA[ Mover data that is transferred from the PlanarMover to this function block. ]]></Comment>
+							<Comment><![CDATA[ Mover data that is transferred from the Planar Mover to this function block. ]]></Comment>
 							<Type GUID="{647182DA-ACC0-95CA-E5B3-88E085CDB644}" Namespace="Tc3_Mc3PlanarMotion">CDT_PLCTOMC_PLANAR_MOVER</Type>
 						</Var>
 						<Var>
 							<Name>MAIN.fbApp.fbMover4.PLCTOMC</Name>
-							<Comment><![CDATA[ Mover data that is transferred from the PlanarMover to this function block. ]]></Comment>
+							<Comment><![CDATA[ Mover data that is transferred from the Planar Mover to this function block. ]]></Comment>
 							<Type GUID="{647182DA-ACC0-95CA-E5B3-88E085CDB644}" Namespace="Tc3_Mc3PlanarMotion">CDT_PLCTOMC_PLANAR_MOVER</Type>
 						</Var>
 					</Vars>

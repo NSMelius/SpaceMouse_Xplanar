@@ -12,6 +12,7 @@ VAR_GLOBAL CONSTANT
 	delta	: LREAL := 0.01;
 	zPosMax	: LREAL := 4;
 	zPosMin : LREAL := 0;
+	fAngleAB	: LREAL :=0;
 END_VAR]]></Declaration>
   </GVL>
 </TcPlcObject>

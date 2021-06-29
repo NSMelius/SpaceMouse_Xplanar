@@ -151,16 +151,6 @@ fbMover1.Update();]]></ST>
     </Method>
     <Property Name="MouseInputs" Id="{0e78cf1d-aa58-41cf-9152-8ab18ea41649}">
       <Declaration><![CDATA[PROPERTY MouseInputs : REFERENCE TO SpaceMouseInputs]]></Declaration>
-      <Get Name="Get" Id="{70352a8c-d981-4cce-83bc-69e57269270a}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[IF __ISVALIDREF(_stMouseInputs) THEN
-MouseInputs REF= _stMouseInputs;
-END_IF]]></ST>
-        </Implementation>
-      </Get>
       <Set Name="Set" Id="{3b5b1134-1e3d-41d5-83c1-64c3c8f1fcd5}">
         <Declaration><![CDATA[VAR
 END_VAR
@@ -333,38 +323,63 @@ VAR
 	Position	: MoverVector;
 	Velocity	: MoverVector;
 	Acceleration	: MoverVector;
-	c: INT;
+	lMargin	: LREAL := 0.1;
+	bADone	: BOOL;
+	bBDone	: BOOL;
+	bCDone	: BOOL;
+	
 END_VAR
 VAR_INST
-	fAngle	:	LREAL;
+	fAngleC	:	LREAL;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[		Velocity.c := 0;
-		
-		Acceleration.x := 0;
-		Acceleration.y := 0;
-		Acceleration.z := 0;
-		Acceleration.a := 0;
-		Acceleration.b := 0;
-		Acceleration.c := 0;	
+        <ST><![CDATA[stPosSnap1 := fbMover1.MCTOPLC.ACT.ActPos;
+
+Velocity.x := 0;
+Velocity.y := 0;
+Velocity.z := 0;
+Velocity.a := 0;
+Velocity.b := 0;		
+Velocity.c := 0;
+
+Acceleration.x := 0;
+Acceleration.y := 0;
+Acceleration.z := 0;
+Acceleration.a := 0;
+Acceleration.b := 0;
+Acceleration.c := 0;	
 //IF stPosSnap1.c < -1.0 OR stPosSnap1.c > 1.0 THEN
 //First cycle since snap command.
 
 	IF _stMouseInputs.Btn2 AND NOT bMouseInput THEN
-		fAngle := snapTo90(stPosSnap1.c);
+		fAngleC := snapTo90(stPosSnap1.c);
 		fbMover1.StartExternalSetpointGeneration(fbFeedback1,stOptions1);
 		bMouseInput := TRUE;
 	END_IF
 //make sure the difference between the nearest 90 degree angle and the curent position is great enough to command the mover to rotate.
-IF (stPosSnap1.c > 0 AND LTRUNC(stPosSnap1.c - fAngle) =0) OR (stPosSnap1.c <0 AND LTRUNC(stPosSnap1.c + fAngle) = 0) THEN
-			_stMouseInputs.Btn2 := FALSE;
+IF (stPosSnap1.a >=0 AND stPosSnap1.a < fAngleAB + lMargin) OR (stPosSnap1.a <0 AND stPosSnap1.a > fAngleAB - lMargin) THEN
+			bADone := TRUE;
 END_IF
+IF (stPosSnap1.b >=0 AND stPosSnap1.b < fAngleAB + lMargin) OR (stPosSnap1.b <0 AND stPosSnap1.b > fAngleAB - lMargin) THEN
+			bBDone := TRUE;
+END_IF
+IF (stPosSnap1.c >=0 AND stPosSnap1.c < fAngleC + lMargin) OR (stPosSnap1.c <0 AND stPosSnap1.c > fAngleC - lMargin) THEN
+		bCDone := TRUE;
+END_IF
+IF bADone AND bBDone AND bCDone THEN
+	_stMouseInputs.Btn2 := FALSE;
+END_IF
+
 //Last cycle to end snap command
 	IF NOT _stMouseInputs.Btn2 AND bMouseInput THEN
 		Position := stPosSnap1;
-		//Position.c := fAngle;
+		//Position.c := fAngleC;
+		Velocity.a := 0;
+		Velocity.b := 0;
 		Velocity.c := 0;
+		Acceleration.a := 0;
+		Acceleration.b := 0;
 		Acceleration.c := 0;
 		fbMover1.SetExternalSetpoint(Position,Velocity,Acceleration);
 		fbMover1.StopExternalSetpointGeneration(fbFeedback1);
@@ -376,24 +391,49 @@ END_IF
 	IF _stMouseInputs.Btn2 AND bMouseInput THEN
 		
 		Position := stPosSnap1;
-		Acceleration.c := 100;
-		IF (stPosSnap1.c - fAngle) > 0 THEN
-			Velocity.c := MaxZABCVelocity *-1;
-		ELSIF (stPosSnap1.c-fAngle) < 0 THEN
-			Velocity.c := MaxZABCVelocity;
+		IF NOT bCDone THEN
+			Acceleration.c := 100;
+			IF (stPosSnap1.c - fAngleC) > 0 THEN
+				Velocity.c := MaxZABCVelocity *-1;
+			ELSIF (stPosSnap1.c - fAngleC) < 0 THEN
+				Velocity.c := MaxZABCVelocity;
+			END_IF
+			
+			IF stPosSnap1.c < 0 THEN
+				Position.c := stPosSnap1.c + ((stPosSnap1.c - fAngleC) * ((-1*delta) * Velocity.c));
+			ELSIF stPosSnap1.c > 0 THEN
+				Position.c := stPosSnap1.c + ((stPosSnap1.c - fAngleC) * (delta * Velocity.c));
+			END_IF
 		END_IF
 		
-		IF stPosSnap1.c < 0 THEN
-			Position.c := stPosSnap1.c + ((stPosSnap1.c - fAngle) * ((-1*delta) * Velocity.c));
-		ELSIF stPosSnap1.c > 0 THEN
-			Position.c := stPosSnap1.c + ((stPosSnap1.c - fAngle) * (delta * Velocity.c));
+		IF NOT bADone THEN 
+			Acceleration.a := 100;
+			IF (stPosSnap1.a - fAngleAB) > 0 THEN
+				Velocity.a := MaxZABCVelocity *-1;
+			ELSIF (stPosSnap1.a - fAngleAB) < 0 THEN
+				Velocity.a := MaxZABCVelocity;
+			END_IF
+			IF stPosSnap1.a < 0 THEN
+			Position.a := stPosSnap1.a + ((stPosSnap1.a - fAngleAB) * ((-1*delta) * Velocity.a));
+		ELSIF stPosSnap1.a > 0 THEN
+			Position.a := stPosSnap1.a + ((stPosSnap1.a - fAngleAB) * (delta * Velocity.a));
+		END_IF
 		END_IF
 		
-		
+		IF NOT bBDone THEN
+			Acceleration.b := 100;
+			IF (stPosSnap1.b - fAngleAB) > 0 THEN
+				Velocity.b := MaxZABCVelocity *-1;
+			ELSIF (stPosSnap1.b - fAngleAB) < 0 THEN
+				Velocity.b := MaxZABCVelocity;
+			END_IF
+			IF stPosSnap1.b < 0 THEN
+				Position.b := stPosSnap1.b + ((stPosSnap1.b - fAngleAB) * ((-1*delta) * Velocity.b));
+			ELSIF stPosSnap1.b > 0 THEN
+				Position.b := stPosSnap1.b + ((stPosSnap1.b - fAngleAB) * (delta * Velocity.b));
+			END_IF
 	
-		
-		
-		
+		END_IF
 		
 		fbMover1.SetExternalSetpoint(Position,Velocity,Acceleration);
 	END_IF]]></ST>
@@ -402,7 +442,7 @@ END_IF
     <Method Name="SnapTo90" Id="{6d71db3b-5cae-4ae3-9115-1abf6628cb38}">
       <Declaration><![CDATA[METHOD SnapTo90 : LREAL
 VAR_INPUT
-	fAngle : LREAL;
+	fInput : LREAL;
 END_VAR
 VAR
 	fResult	: LREAL;
@@ -412,9 +452,9 @@ VAR
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[nTurns := MODTURNS(fAngle,fTurnAngle);
-fRemainder := LMOD(fAngle,fTurnAngle);  
-IF (nTurns > 0 AND fRemainder >= (fTurnAngle/2)) OR (nTurns <0 AND fRemainder >= (-1*fTurnAngle/2))  THEN
+        <ST><![CDATA[nTurns := MODTURNS(fInput,fTurnAngle);
+fRemainder := LMOD(fInput,fTurnAngle);  
+IF (nTurns > 0 AND fRemainder >= (fTurnAngle/2)) OR (nTurns <0 AND fRemainder >= (-1 * fTurnAngle/2))  THEN
 	nTurns := nTurns + 1;
 END_IF
 fResult := nTurns * fTurnAngle;
